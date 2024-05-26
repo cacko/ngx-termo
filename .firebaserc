@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "termo-4737a": {
+      "hosting": {
+        "termo": [
+          "termo-4737a"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "termo-4737a"
+  }
+}

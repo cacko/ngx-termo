@@ -1,0 +1,7 @@
+<div id="termometer" *ngIf="($nowdata | async) as nowdata">
+    <div id="temperature" [ngStyle]="{height: nowdata.tempHeight}" [attr.data-value]="nowdata.tempLabel"></div>
+    <div id="graduations"></div>
+</div>
+<div info *ngIf="($nowdata | async) as nowdata">
+    <h1 label>{{nowdata.tempLabel}}</h1>
+</div>

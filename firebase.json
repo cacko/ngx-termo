@@ -1,0 +1,20 @@
+{
+    "hosting": [
+      {
+        "target": "termo",
+        "source": ".",
+        "frameworksBackend": {},
+        "headers": [
+          {
+            "source": "/@(ngsw-worker.js|ngsw.json)",
+            "headers": [
+              {
+                "key": "Cache-Control",
+                "value": "no-cache"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
