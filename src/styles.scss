@@ -26,6 +26,7 @@ $my-typography: mat.define-typography(
 @import "./scss/components/temp";
 @import "./scss/components/spacer";
 @import "./scss/components/now";
+@import "./scss/components/background";
 html {
   @include mat.all-component-themes($my-theme);
 

@@ -13,6 +13,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { SwUpdate, VersionEvent } from '@angular/service-worker';
 import { interval } from 'rxjs';
+import { BackgroundComponent } from './component/background/background.component';
 
 @Component({
   selector: 'app-root',
@@ -24,8 +25,8 @@ import { interval } from 'rxjs';
     LoaderComponent,
     MatToolbarModule,
     MatButtonModule,
-    MatDividerModule
-
+    MatDividerModule,
+    BackgroundComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

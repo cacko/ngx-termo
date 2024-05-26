@@ -16,6 +16,9 @@ export class NowDataModel implements NowDataEntity {
         Object.assign(this, original);
     }
 
+    get tempGradient() {
+        return ((this.temp - this.MIN_TEMP) / (this.MAX_TEMP - this.MIN_TEMP) * 100 )+ '%';   
+    }
 
     get tempHeight() {
         return (this.temp - this.MIN_TEMP) / (this.MAX_TEMP - this.MIN_TEMP) * 100 + '%';
