@@ -3,16 +3,29 @@ import { NowDataModel } from '../../models/nowdata.model';
 import { ApiService } from '../../service/api.service';
 import { BaseChartDirective } from 'ng2-charts';
 import { CommonModule } from '@angular/common';
-import { ChartConfiguration, ChartData, ChartOptions, ScaleChartOptions, Chart } from 'chart.js';
+import { ChartConfiguration, Chart, } from 'chart.js';
 import moment, { Moment } from 'moment';
 import { DatabaseService } from '../../service/db.service';
-import { last } from 'lodash-es';
+import { last, takeRightWhile } from 'lodash-es';
 import { interval } from 'rxjs';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { Context } from 'chartjs-plugin-datalabels';
+
 
 import 'chartjs-adapter-moment';
 
-Chart.register(ChartDataLabels)
+const CHART_COLORS = {
+  red: '#E6836B',
+  orange: '#e37100',
+  green: '#A0A6A5',
+  blue: '#5a64ff',
+  grey: '#797869',
+};
+
+Chart.register(ChartDataLabels);
+
+let current_level: string = "";
+
 
 @Component({
   selector: 'app-livetemp',
@@ -39,18 +52,20 @@ export class LivetempComponent implements OnInit {
         color: '#000',
         display: 'auto',
         align: 'start',
+        clamp: true,
         offset: 5,
         rotation: -60,
         font: {
           family: "'Ubuntu Condensed'",
           size: 15
         },
-        formatter: function (value, context) {
-          return value.y + "°C";
+        formatter: function (value, context: Context) {
           const dIdx = context.dataIndex;
           const data = context.dataset.data as Array<any>;
-          const previous = data.slice(0, dIdx).map((d) => d.y);
-          return previous.includes(value.y) ? null : value.y + "°C";
+          const previous = data[dIdx - 1] || null;
+          console.log(data, dIdx);
+          console.log(previous);
+          return previous && previous.y == value.y ? null : value.y + "°C";
         }
       }
     },
@@ -90,7 +105,34 @@ export class LivetempComponent implements OnInit {
     datasets: [
       {
         data: [],
-        label: 'R201'
+        label: 'R201',
+        // borderColor: function (context: any) {
+        //   console.log(context);
+        //   const chart = context.chart;
+        //   const { ctx, chartArea } = chart;
+
+        //   if (!chartArea) {
+        //     // This case happens on initial chart load
+        //     return;
+        //   }
+
+        //   if (!('parsed' in context)) {
+        //     return current_level;
+        //   }
+
+        //   const temp = context.parsed.y;
+        //   const levels = [
+        //     { min: 30, color: CHART_COLORS.orange },
+        //     { min: 24, color: CHART_COLORS.red },
+        //     { min: 15, color: CHART_COLORS.green },
+        //     { min: 5, color: CHART_COLORS.blue },
+        //     { min: -20, color: CHART_COLORS.grey }
+        //   ];
+
+        //   const f_min = takeRightWhile(levels, (l) => temp > l.min)[0];
+        //   current_level = f_min.color;
+        //   return current_level;
+        // },
       }
     ],
     labels: []
