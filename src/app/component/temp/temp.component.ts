@@ -2,13 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from '../../service/db.service';
 import { CommonModule } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MomentModule } from 'ngx-moment';
 
 @Component({
   selector: 'app-temp',
   standalone: true,
   imports: [
     CommonModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MomentModule
   ],
   templateUrl: './temp.component.html',
   styleUrl: './temp.component.scss'

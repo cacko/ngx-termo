@@ -69,7 +69,7 @@ app-temp {
       width: $TM-bulbSize;
       height: $TM-bulbSize;
       background-color: $TM-bulbColor;
-      bottom: calc($TM-borderSize - $TM-bulbSize );
+      bottom: calc($TM-borderSize - $TM-bulbSize);
       @include border;
       z-index: -3;
       left: 50%;
@@ -111,36 +111,36 @@ app-temp {
 
       // Temperature value - Tooltip
 
-    //   &:before {
-    //     content: attr(data-value);
-    //     background: $TM-tooltipColor;
-    //     color: white;
-    //     z-index: 2;
-    //     padding: $TM-tooltipVerticalPadding $TM-tooltipHorizontalPadding;
-    //     border-radius: $TM-tooltipRadius;
-    //     font-size: $TM-tooltipSize;
-    //     line-height: 1;
-    //     transform: translateY(50%);
-    //     left: calc(#{$TM-tooltipLeftShift} + 1em / #{$TM-tooltipArrowWidth});
-    //     top: calc(
-    //       -1em + #{$TM-tooltipTopShift} - #{$TM-tooltipVerticalPadding} * 2
-    //     );
-    //   }
+      //   &:before {
+      //     content: attr(data-value);
+      //     background: $TM-tooltipColor;
+      //     color: white;
+      //     z-index: 2;
+      //     padding: $TM-tooltipVerticalPadding $TM-tooltipHorizontalPadding;
+      //     border-radius: $TM-tooltipRadius;
+      //     font-size: $TM-tooltipSize;
+      //     line-height: 1;
+      //     transform: translateY(50%);
+      //     left: calc(#{$TM-tooltipLeftShift} + 1em / #{$TM-tooltipArrowWidth});
+      //     top: calc(
+      //       -1em + #{$TM-tooltipTopShift} - #{$TM-tooltipVerticalPadding} * 2
+      //     );
+      //   }
 
       // Tooltip arrow
 
-    //   &:after {
-    //     content: "";
-    //     border-top: $TM-tooltipSize / $TM-tooltipArrowHeight solid transparent;
-    //     border-bottom: $TM-tooltipSize / $TM-tooltipArrowHeight solid
-    //       transparent;
-    //     border-right: $TM-tooltipSize / $TM-tooltipArrowWidth solid
-    //       $TM-tooltipColor;
-    //     left: $TM-tooltipLeftShift;
-    //     top: calc(
-    //       -#{$TM-tooltipSize} / #{$TM-tooltipArrowHeight} + #{$TM-tooltipTopShift}
-    //     );
-    //   }
+      //   &:after {
+      //     content: "";
+      //     border-top: $TM-tooltipSize / $TM-tooltipArrowHeight solid transparent;
+      //     border-bottom: $TM-tooltipSize / $TM-tooltipArrowHeight solid
+      //       transparent;
+      //     border-right: $TM-tooltipSize / $TM-tooltipArrowWidth solid
+      //       $TM-tooltipColor;
+      //     left: $TM-tooltipLeftShift;
+      //     top: calc(
+      //       -#{$TM-tooltipSize} / #{$TM-tooltipArrowHeight} + #{$TM-tooltipTopShift}
+      //     );
+      //   }
     }
   }
 
@@ -174,5 +174,15 @@ app-temp {
 
   @mixin disabled {
     cursor: not-allowed;
+  }
+
+  div[info] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    h1 {
+        margin: 0;
+    }
   }
 }
