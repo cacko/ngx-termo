@@ -9,7 +9,7 @@ app-temp {
   $TM-backgroundColor: darken($TM-mainTint, 2%);
   $TM-borderSize: 9px;
   $TM-borderColor: darken($TM-mainTint, 8%);
-  $TM-width: 45px;
+  $TM-width: 25px;
   $TM-height: 100%;
   $TM-bulbSize: $TM-width * 2;
   $TM-radius: 20px;
@@ -44,6 +44,7 @@ app-temp {
     border-radius: $TM-radius;
     z-index: 1;
     margin-bottom: $TM-bulbSize;
+    // box-sizing: content-box;
 
     &:before,
     &:after {

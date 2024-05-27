@@ -30,6 +30,7 @@ $my-typography: mat.define-typography(
 @import "./scss/components/livetemp";
 @import "./scss/components/loader";
 html {
+  @include mat.core-theme($my-theme);
   @include mat.all-component-themes($my-theme);
   box-sizing: border-box;
   padding: 0;
