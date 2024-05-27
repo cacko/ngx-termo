@@ -34,16 +34,18 @@ import { BackgroundComponent } from './component/background/background.component
 export class AppComponent implements OnInit {
   title = 'termo';
   $user = this.userService.user;
+  $loader = this.loader.$visible;
 
   constructor(
     private router: Router,
     private iconRegister: MatIconRegistry,
     private userService: UserService,
     private db: DatabaseService,
-    public loader: LoaderService,
+    private loader: LoaderService,
     private swUpdate: SwUpdate,
     private analytics: Analytics = inject(Analytics)
   ) {
+    this.loader.show();
     this.iconRegister.setDefaultFontSetClass('material-symbols-sharp');
     setAnalyticsCollectionEnabled(this.analytics, true);
 

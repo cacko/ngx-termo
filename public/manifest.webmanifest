@@ -2,7 +2,7 @@
   "name": "Termo",
   "short_name": "teRMo",
   "theme_color": "#bc5d00",
-  "background_color": "#120A20",
+  "background_color": "#38383F",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",

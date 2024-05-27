@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { ElementRef, Injectable, Renderer2 } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
@@ -11,7 +11,9 @@ export class LoaderService {
   private hiddenSubject = new BehaviorSubject<boolean>(false);
   $hidden = this.hiddenSubject.asObservable();
 
-  constructor() { }
+  constructor(
+
+  ) { }
 
   show() {
     this.visibleSubject.next(true);

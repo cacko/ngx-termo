@@ -3,12 +3,16 @@ import { NowDataModel } from '../../models/nowdata.model';
 import { ApiService } from '../../service/api.service';
 import { BaseChartDirective } from 'ng2-charts';
 import { CommonModule } from '@angular/common';
-import { ChartConfiguration, ChartData, ChartOptions, ScaleChartOptions } from 'chart.js';
+import { ChartConfiguration, ChartData, ChartOptions, ScaleChartOptions, Chart } from 'chart.js';
 import moment, { Moment } from 'moment';
 import { DatabaseService } from '../../service/db.service';
 import { last } from 'lodash-es';
 import { interval } from 'rxjs';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+
 import 'chartjs-adapter-moment';
+
+Chart.register(ChartDataLabels)
 
 @Component({
   selector: 'app-livetemp',
@@ -29,7 +33,25 @@ export class LivetempComponent implements OnInit {
         display: false
       },
       tooltip: {
-        position: 'nearest'
+        enabled: false
+      },
+      datalabels: {
+        color: '#000',
+        display: 'auto',
+        align: 'start',
+        offset: 5,
+        rotation: -60,
+        font: {
+          family: "'Ubuntu Condensed'",
+          size: 15
+        },
+        formatter: function (value, context) {
+          return value.y + "°C";
+          const dIdx = context.dataIndex;
+          const data = context.dataset.data as Array<any>;
+          const previous = data.slice(0, dIdx).map((d) => d.y);
+          return previous.includes(value.y) ? null : value.y + "°C";
+        }
       }
     },
     elements: {
@@ -51,13 +73,15 @@ export class LivetempComponent implements OnInit {
       },
       y: {
         display: false,
+        offset: true,
         grid: {
           display: false
         },
         ticks: {
           callback: function (value, index, ticks) {
             return value + "°C";
-          }
+          },
+          stepSize: 0.1,
         }
       }
     },
