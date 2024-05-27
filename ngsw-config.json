@@ -5,11 +5,11 @@
     {
       "name": "app",
       "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {},
       "resources": {
         "files": [
           "/favicon.ico",
-          "/index.html",
-          "/manifest.webmanifest",
           "/*.css",
           "/*.js"
         ]

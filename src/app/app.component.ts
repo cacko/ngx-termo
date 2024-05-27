@@ -66,7 +66,6 @@ export class AppComponent implements OnInit {
         }
       });
       interval(20000).subscribe(() => this.swUpdate.checkForUpdate());
-      this.swUpdate.checkForUpdate();
     }
   }
 

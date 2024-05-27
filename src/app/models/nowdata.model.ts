@@ -10,7 +10,7 @@ export class NowDataModel implements NowDataEntity {
     timestamp !: string;
 
     readonly MIN_TEMP = -20;
-    readonly MAX_TEMP = 50;
+    readonly MAX_TEMP = 40;
 
     constructor(
         original: NowDataEntity
