@@ -63,8 +63,6 @@ export class LivetempComponent implements OnInit {
           const dIdx = context.dataIndex;
           const data = context.dataset.data as Array<any>;
           const previous = data[dIdx - 1] || null;
-          console.log(data, dIdx);
-          console.log(previous);
           return previous && previous.y == value.y ? null : value.y + "°C";
         }
       }
