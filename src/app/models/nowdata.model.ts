@@ -1,4 +1,4 @@
-import { NowDataEntity } from "../entity/api.entity";
+import { NowDataEntity, SensorLocation } from "../entity/api.entity";
 import moment, { Moment } from 'moment';
 
 
@@ -8,6 +8,7 @@ export class NowDataModel implements NowDataEntity {
     humid !: number;
     model !: string;
     timestamp !: string;
+    location !: SensorLocation;
 
     readonly MIN_TEMP = -20;
     readonly MAX_TEMP = 50;
