@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject, tap, delay, EMPTY, expand, reduce } from 'rxjs';
-import { API } from '../entity/api.entity';
+import { API, NowDataEntity } from '../entity/api.entity';
 import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
 import { inject } from '@angular/core';
 import { concat, findIndex, findLastIndex } from 'lodash-es';
 import { LocalStorageService } from 'ngx-localstorage';
 import moment, { Moment } from 'moment';
 import { LoaderService } from './loader.service';
+import { NowDataModel } from '../models/nowdata.model';
 
 
 @Injectable({
@@ -55,35 +56,30 @@ export class ApiService {
   // }
 
 
-  // getNow(id: string, useCache: boolean = true): any {
-  //   return new Observable((subscriber: any) => {
-  //     const entities = this.entities;
-  //     const idx = findIndex(entities, { slug: id });
-  //     if (idx > -1 && useCache) {
-  //       subscriber.next(entities[idx]);
-  //       return;
-  //     }
-  //     this.loader.show();
-  //     this.http.get(`${API.URL}/${API.ACTION_GENERATED}/${id}`, {
-  //       headers: this.headers,
-  //       withCredentials: true,
-  //     }).subscribe({
-  //       next: (data: any) => {
-  //         if (idx === -1) {
-  //           entities.unshift(data);
-  //         } else {
-  //           entities[idx] = data;
-  //         }
-  //         this.entities = entities;
-  //         subscriber.next(data);
-  //       },
-  //       error: (error: any) => console.debug(error),
-  //       complete: () => {
-  //         this.loader.hide();
-  //       },
-  //     });
-  //   });
-  // }
+  getHistory(useCache: boolean = true): Observable<NowDataModel[]> {
+    return new Observable((subscriber: any) => {
+      // const entities = this.entities;
+      // const idx = findIndex(entities, { slug: id });
+      // if (idx > -1 && useCache) {
+      //   subscriber.next(entities[idx]);
+      //   return;
+      // }
+      this.loader.show();
+      this.http.get(`${API.URL}/${API.ACTION_PERIOD_HOUR}`, {
+        headers: this.headers,
+        withCredentials: true,
+      }).subscribe({
+        next: (data: any) => {
+          const models = (data as NowDataEntity[]).map((m) => new NowDataModel(m));
+          subscriber.next(models);
+        },
+        error: (error: any) => console.debug(error),
+        complete: () => {
+          this.loader.hide();
+        },
+      });
+    });
+  }
 
 //   getGenerations(): any {
 //     return new Observable((subscriber: any) => {

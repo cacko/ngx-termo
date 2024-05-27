@@ -30,4 +30,12 @@ export class NowDataModel implements NowDataEntity {
     get tempLabel() {
         return `${this.temp}°C`;
     }
+
+    get timestampLabel() {
+        return moment(this.timestamp).utc().format('LT');
+    }
+
+    get timestampDate() {
+        return moment(this.timestamp).utc();
+    }
 }

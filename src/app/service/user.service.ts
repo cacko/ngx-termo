@@ -27,7 +27,6 @@ export class UserService {
     onIdTokenChanged(this.auth, (res) => {
       res?.getIdTokenResult().then((tokenResult) => {
         this.api.userToken = tokenResult.token;
-        console.debug(tokenResult.token);
         const expiry = moment(tokenResult.expirationTime);
         const refresh = expiry.subtract(5 * 60, 'seconds')
         this.refreshSub && this.refreshSub?.unsubscribe();
