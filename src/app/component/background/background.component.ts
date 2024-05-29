@@ -23,7 +23,7 @@ export class BackgroundComponent implements AfterViewInit {
   }
 
 ngAfterViewInit(): void {
-    this.db.$change.subscribe((nowdata: NowDataModel|null) => {
+    this.db.$indoor.subscribe((nowdata: NowDataModel|null) => {
       this.renderer.setStyle(this.element.nativeElement, "background-image", `linear-gradient(#f17a65 ${nowdata?.tempGradient}, #3dcadf)`)
     });
 }

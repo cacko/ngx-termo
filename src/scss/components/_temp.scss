@@ -1,3 +1,5 @@
+@use "@angular/material" as mat;
+
 app-temp {
   margin: auto;
   display: flex;
@@ -9,7 +11,7 @@ app-temp {
   $TM-backgroundColor: darken($TM-mainTint, 2%);
   $TM-borderSize: 9px;
   $TM-borderColor: darken($TM-mainTint, 8%);
-  $TM-width: 25px;
+  $TM-width: 40px;
   $TM-height: 100%;
   $TM-bulbSize: $TM-width * 2;
   $TM-radius: 20px;
@@ -44,7 +46,7 @@ app-temp {
     border-radius: $TM-radius;
     z-index: 1;
     margin-bottom: $TM-bulbSize;
-    // box-sizing: content-box;
+    box-sizing: content-box;
 
     &:before,
     &:after {
@@ -183,7 +185,28 @@ app-temp {
     align-items: center;
     justify-content: center;
     h1 {
-        margin: 0;
+      display: inline-flex;
+      align-items: center;
+      margin: 0;
+      mat-icon {
+        font-size: inherit !important;
+        line-height: inherit !important;
+        width: fit-content;
+        height: fit-content;
+        color: #f17a65;
+      }
+    }
+    H4 {
+      display: inline-flex;
+      align-items: center;
+      margin: 0;
+      mat-icon {
+        font-size: inherit !important;
+        line-height: inherit !important;
+        width: fit-content;
+        height: fit-content;
+        color: $TM-bulbColor;
+      }
     }
   }
 }

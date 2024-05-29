@@ -3,8 +3,8 @@ import moment, { Moment } from 'moment';
 
 export enum API {
     URL = "https://termo-api.cacko.net/api",
-    ACTION_NOWDATA = "indoor/now",
-    ACTION_PERIOD_HOUR = "indoor/hour",
+    ACTION_INDOOR_NOW = "indoor/now",
+    ACTION_INDOOR_HOUR = "indoor/hour",
     CDN = "https://cdn.cacko.net/termo"
 };
 

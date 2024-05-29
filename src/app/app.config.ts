@@ -10,7 +10,6 @@ import { getDatabase, provideDatabase } from '@angular/fire/database';
 import { provideNgxLocalstorage } from 'ngx-localstorage';
 import { provideHttpClient } from '@angular/common/http';
 import { provideServiceWorker } from '@angular/service-worker';
-import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 
 export const appConfig: ApplicationConfig = {
@@ -19,5 +18,5 @@ export const appConfig: ApplicationConfig = {
   }), provideHttpClient(), provideServiceWorker('ngsw-worker.js', {
     enabled: !isDevMode(),
     registrationStrategy: 'registerWhenStable:30000'
-  }), provideCharts(withDefaultRegisterables())]
+  })]
 };

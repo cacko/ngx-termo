@@ -3,6 +3,8 @@ import { DatabaseService } from '../../service/db.service';
 import { CommonModule } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MomentModule } from 'ngx-moment';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-temp',
@@ -10,14 +12,16 @@ import { MomentModule } from 'ngx-moment';
   imports: [
     CommonModule,
     MatProgressBarModule,
-    MomentModule
+    MomentModule,
+    MatIconModule,
+    MatButtonModule
   ],
   templateUrl: './temp.component.html',
   styleUrl: './temp.component.scss'
 })
 export class TempComponent implements OnInit {
 
-  $nowdata = this.db.$change;
+  $nowdata = this.db.$indoor;
 
   constructor(
     private db: DatabaseService

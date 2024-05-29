@@ -1,7 +1,7 @@
 import { ApplicationConfig, Injectable } from '@angular/core';
 import { Database, ref, stateChanges, DataSnapshot, objectVal } from '@angular/fire/database';
 import { BehaviorSubject, Observable, Subject, Subscription, endWith } from 'rxjs';
-import { NowDataEntity } from '../entity/api.entity';
+import { NowDataEntity, SensorLocation } from '../entity/api.entity';
 import { NowDataModel } from '../models/nowdata.model';
 
 
@@ -11,8 +11,11 @@ import { NowDataModel } from '../models/nowdata.model';
 })
 export class DatabaseService {
 
-  private changeSubject = new BehaviorSubject<NowDataModel | null>(null);
-  $change = this.changeSubject.asObservable();
+  private indoorSubject = new BehaviorSubject<NowDataModel | null>(null);
+  $indoor = this.indoorSubject.asObservable();
+
+  private outdoorSubject = new BehaviorSubject<NowDataModel | null>(null);
+  $outdoor = this.outdoorSubject.asObservable();
 
   constructor(
     private db: Database
@@ -24,7 +27,15 @@ export class DatabaseService {
     stateChanges(list).subscribe((change: any) => {
       const snapshot: DataSnapshot = change.snapshot;
       const data = snapshot.val() as NowDataEntity;
-      this.changeSubject.next(new NowDataModel(data));
+      switch (data.location) {
+        case SensorLocation.INDOOR:
+          this.indoorSubject.next(new NowDataModel(data));
+          break;
+        case SensorLocation.OUTDOOR:
+          this.outdoorSubject.next(new NowDataModel(data));
+          break;
+      }
+
     });
   }
 

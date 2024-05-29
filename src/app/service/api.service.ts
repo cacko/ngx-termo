@@ -65,7 +65,7 @@ export class ApiService {
       //   return;
       // }
       this.loader.show();
-      this.http.get(`${API.URL}/${API.ACTION_PERIOD_HOUR}`, {
+      this.http.get(`${API.URL}/${API.ACTION_INDOOR_HOUR}`, {
         headers: this.headers,
         withCredentials: true,
       }).subscribe({

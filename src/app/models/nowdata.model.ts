@@ -39,4 +39,19 @@ export class NowDataModel implements NowDataEntity {
     get timestampDate() {
         return moment(this.timestamp).utc();
     }
+
+    get humidLabel() {
+        return `${this.humid}%`
+    }
+
+    get humidIcon() {
+        switch(true) {
+            case this.humid > 80:
+                return 'humidity_high';
+            case this.humid > 50:
+                return 'humidity_mid';
+            default:
+                return 'humidity_low';
+        }
+    }
 }
