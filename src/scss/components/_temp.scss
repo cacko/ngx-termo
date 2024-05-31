@@ -1,211 +1,65 @@
 @use "@angular/material" as mat;
 
-app-temp {
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-  $TM-mainTint: #3d3d44;
-  $TM-backgroundColor: darken($TM-mainTint, 2%);
-  $TM-borderSize: 9px;
-  $TM-borderColor: darken($TM-mainTint, 8%);
-  $TM-width: 40px;
-  $TM-height: 100%;
-  $TM-bulbSize: $TM-width * 2;
-  $TM-radius: 20px;
-  $TM-graduationsStyle: 2px solid rgba(0, 0, 0, 0.5);
-  $TM-bulbColor: #3dcadf;
-  $TM-mercuryColor: linear-gradient(#f17a65, $TM-bulbColor) no-repeat bottom;
-
-  // Tooltip
-
-  $TM-tooltipColor: rgba(0, 0, 0, 0.7);
-  $TM-tooltipSize: 1em;
-  $TM-tooltipRadius: 5px;
-  $TM-tooltipTopShift: 5px;
-  $TM-tooltipVerticalPadding: 5px;
-  $TM-tooltipHorizontalPadding: $TM-tooltipVerticalPadding * 2;
-  $TM-tooltipLeftShift: 100%;
-  $TM-tooltipArrowWidth: 1.5; // Higher numbers produce smaller width
-  $TM-tooltipArrowHeight: 2.2; // Higher numbers produce smaller height
-
-  @mixin border() {
-    border: $TM-borderSize solid $TM-borderColor;
-  }
-
-  // THERMOMETER ―――――――――――――――――――――――――
-
-  #termometer {
-    width: $TM-width;
-    background: $TM-backgroundColor;
-    height: $TM-height;
+@mixin apply-theme($theme) {
+  app-temp {
     position: relative;
-    @include border;
-    border-radius: $TM-radius;
-    z-index: 1;
-    margin-bottom: $TM-bulbSize;
-    box-sizing: content-box;
-
-    &:before,
-    &:after {
-      position: absolute;
-      content: "";
-      border-radius: 50%;
-    }
-
-    // Border cover
-
-    &:before {
-      width: 100%;
-      height: calc($TM-bulbSize / 2 + $TM-borderSize);
-      bottom: $TM-borderSize;
-      background: $TM-backgroundColor;
-      z-index: -1;
-    }
-
-    // Bulb
-
-    &:after {
-      transform: translateX(-50%);
-      width: $TM-bulbSize;
-      height: $TM-bulbSize;
-      background-color: $TM-bulbColor;
-      bottom: calc($TM-borderSize - $TM-bulbSize);
-      @include border;
-      z-index: -3;
-      left: 50%;
-    }
-
-    #graduations {
-      height: 59%;
-      top: 20%;
-      width: 50%;
-
-      &,
-      &:before {
-        position: absolute;
-        border-top: $TM-graduationsStyle;
-        border-bottom: $TM-graduationsStyle;
-      }
-
-      &:before {
-        content: "";
-        height: 34%;
-        width: 100%;
-        top: 32%;
-      }
-    }
-
-    #temperature {
-      bottom: 0;
-      background: $TM-mercuryColor;
-      width: 100%;
-      border-radius: $TM-radius;
-      background-size: 100% $TM-height;
-      transition: all 0.2s ease-in-out;
-
-      &,
-      &:before,
-      &:after {
-        position: absolute;
-      }
-
-      // Temperature value - Tooltip
-
-      //   &:before {
-      //     content: attr(data-value);
-      //     background: $TM-tooltipColor;
-      //     color: white;
-      //     z-index: 2;
-      //     padding: $TM-tooltipVerticalPadding $TM-tooltipHorizontalPadding;
-      //     border-radius: $TM-tooltipRadius;
-      //     font-size: $TM-tooltipSize;
-      //     line-height: 1;
-      //     transform: translateY(50%);
-      //     left: calc(#{$TM-tooltipLeftShift} + 1em / #{$TM-tooltipArrowWidth});
-      //     top: calc(
-      //       -1em + #{$TM-tooltipTopShift} - #{$TM-tooltipVerticalPadding} * 2
-      //     );
-      //   }
-
-      // Tooltip arrow
-
-      //   &:after {
-      //     content: "";
-      //     border-top: $TM-tooltipSize / $TM-tooltipArrowHeight solid transparent;
-      //     border-bottom: $TM-tooltipSize / $TM-tooltipArrowHeight solid
-      //       transparent;
-      //     border-right: $TM-tooltipSize / $TM-tooltipArrowWidth solid
-      //       $TM-tooltipColor;
-      //     left: $TM-tooltipLeftShift;
-      //     top: calc(
-      //       -#{$TM-tooltipSize} / #{$TM-tooltipArrowHeight} + #{$TM-tooltipTopShift}
-      //     );
-      //   }
-    }
-  }
-
-  @mixin shadow($shadow-size, $shadow-blur, $shadow-color) {
-    box-shadow: $shadow-size $shadow-size $shadow-blur $shadow-color,
-      0 0 $shadow-size lighten($shadow-color, 5%);
-  }
-
-  @mixin track {
-    cursor: default;
-    height: $track-height;
-    transition: all 0.2s ease;
-    width: $track-width;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-  }
-
-  @mixin thumb($adjustment: 0) {
-    @include shadow(
-      $thumb-shadow-size,
-      $thumb-shadow-blur,
-      $thumb-shadow-color
-    );
-    background: $thumb-color;
-    border: $thumb-border-width solid $thumb-border-color;
-    border-radius: $thumb-radius;
-    cursor: pointer;
-    height: $thumb-height + $adjustment;
-    width: $thumb-width + $adjustment;
-  }
-
-  @mixin disabled {
-    cursor: not-allowed;
-  }
-
-  div[info] {
+    margin: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    h1 {
-      display: inline-flex;
-      align-items: center;
-      margin: 0;
-      mat-icon {
-        font-size: inherit !important;
-        line-height: inherit !important;
-        width: fit-content;
-        height: fit-content;
-        color: #f17a65;
-      }
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-blend-mode: soft-light;
+
+    @media only screen and (orientation: landscape) {
+      flex-direction: row;
+      justify-content: center;
+      column-gap: 2rem;
     }
-    H4 {
-      display: inline-flex;
+
+    app-termometer {
+      height: 70vh;
+    }
+
+    div[info] {
+      display: flex;
+      flex-direction: column;
       align-items: center;
-      margin: 0;
-      mat-icon {
-        font-size: inherit !important;
-        line-height: inherit !important;
-        width: fit-content;
-        height: fit-content;
-        color: $TM-bulbColor;
+      row-gap: 0;
+      justify-content: center;
+      @media only screen and (orientation: landscape) {
+        justify-content: flex-end;
+        height: 100%;
+      }
+      h1 {
+        display: flex;
+        align-items: center;
+        margin: 0;
+        margin-block: 0;
+        line-height: 100%;
+        padding: 0;
+        color: mat.get-theme-color($theme, surface);
+        mat-icon {
+          font-size: inherit !important;
+          line-height: inherit !important;
+          width: fit-content;
+          height: fit-content;
+        }
+      }
+      H4 {
+        display: inline-flex;
+        align-items: center;
+        margin: 0;
+        color: mat.get-theme-color($theme, surface-dim);
+        mat-icon {
+          font-size: inherit !important;
+          line-height: inherit !important;
+          width: fit-content;
+          height: fit-content;
+        }
       }
     }
   }

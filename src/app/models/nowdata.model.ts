@@ -1,5 +1,6 @@
-import { NowDataEntity, SensorLocation } from "../entity/api.entity";
+import { NowDataEntity } from "../entity/api.entity";
 import moment, { Moment } from 'moment';
+import { SensorLocation } from "../entity/location.emtity";
 
 
 export class NowDataModel implements NowDataEntity {
@@ -10,8 +11,8 @@ export class NowDataModel implements NowDataEntity {
     timestamp !: string;
     location !: SensorLocation;
 
-    readonly MIN_TEMP = -20;
-    readonly MAX_TEMP = 50;
+    readonly MIN_TEMP = -10;
+    readonly MAX_TEMP = 40;
 
     constructor(
         original: NowDataEntity
@@ -29,7 +30,22 @@ export class NowDataModel implements NowDataEntity {
     }
 
     get tempLabel() {
-        return `${this.temp}°C`;
+        return `${this.temp.toFixed(1)}°C`;
+    }
+
+    get tempClass() {
+        switch (true) {
+            case this.temp > 35:
+                return 'extreme_heat';
+            case this.temp > 25:
+                return 'heat';
+            case this.temp > 18:
+                return 'normal';
+            case this.temp > 3:
+                return 'vold';
+            default:
+                return 'severe-cold';
+        }
     }
 
     get timestampLabel() {
@@ -41,11 +57,11 @@ export class NowDataModel implements NowDataEntity {
     }
 
     get humidLabel() {
-        return `${this.humid}%`
+        return `${this.humid.toFixed(1)}%`
     }
 
     get humidIcon() {
-        switch(true) {
+        switch (true) {
             case this.humid > 80:
                 return 'humidity_high';
             case this.humid > 50:
@@ -53,5 +69,32 @@ export class NowDataModel implements NowDataEntity {
             default:
                 return 'humidity_low';
         }
+    }
+
+    get locationIcon() {
+        switch (this.location) {
+            case SensorLocation.INDOOR:
+                return 'aq_indoor';
+            case SensorLocation.OUTDOOR:
+                return 'outdoor_garden';
+        }
+    }
+
+    get image() {
+        switch (this.location) {
+            case SensorLocation.INDOOR:
+                return this.indoorImage;
+            case SensorLocation.OUTDOOR:
+                return this.outdoorImage;
+        }
+
+    }
+
+    get indoorImage() {
+        return 'https://cdn.cacko.net/termo/indoor-day.webp';
+    }
+
+    get outdoorImage() {
+        return 'https://cdn.cacko.net/termo/outdoor.webp';
     }
 }

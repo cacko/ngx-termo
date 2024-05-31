@@ -1,8 +1,9 @@
-import { ApplicationConfig, Injectable } from '@angular/core';
-import { Database, ref, stateChanges, DataSnapshot, objectVal } from '@angular/fire/database';
-import { BehaviorSubject, Observable, Subject, Subscription, endWith } from 'rxjs';
-import { NowDataEntity, SensorLocation } from '../entity/api.entity';
+import { Injectable } from '@angular/core';
+import { Database, ref, stateChanges, DataSnapshot, } from '@angular/fire/database';
+import { BehaviorSubject, Observable, of, } from 'rxjs';
+import { NowDataEntity,  } from '../entity/api.entity';
 import { NowDataModel } from '../models/nowdata.model';
+import { SensorLocation } from '../entity/location.emtity';
 
 
 
@@ -35,8 +36,19 @@ export class DatabaseService {
           this.outdoorSubject.next(new NowDataModel(data));
           break;
       }
+    }
+    )
+  }
 
-    });
+  forSensor(sensor: SensorLocation): Observable<NowDataModel | null> {
+    switch (sensor) {
+      case SensorLocation.INDOOR:
+        return this.$indoor;
+      case SensorLocation.OUTDOOR:
+        return this.$outdoor;
+      default:
+        return of(null);
+    }
   }
 
   deInit() {

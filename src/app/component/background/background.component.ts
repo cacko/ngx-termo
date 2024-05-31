@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, Renderer2 } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, Renderer2 } from '@angular/core';
 import { DatabaseService } from '../../service/db.service';
 import { NowDataModel } from '../../models/nowdata.model';
+import { SensorLocation } from '../../entity/location.emtity';
 
 @Component({
   selector: 'app-background',
@@ -14,6 +15,9 @@ import { NowDataModel } from '../../models/nowdata.model';
 })
 export class BackgroundComponent implements AfterViewInit {
 
+  @Input() sensor !: SensorLocation;
+  imageSrc: string = "";
+
   constructor(
     private element: ElementRef,
     private renderer: Renderer2,
@@ -22,10 +26,12 @@ export class BackgroundComponent implements AfterViewInit {
 
   }
 
-ngAfterViewInit(): void {
-    this.db.$indoor.subscribe((nowdata: NowDataModel|null) => {
-      this.renderer.setStyle(this.element.nativeElement, "background-image", `linear-gradient(#f17a65 ${nowdata?.tempGradient}, #3dcadf)`)
+  ngAfterViewInit(): void {
+    this.renderer.setAttribute(this.element.nativeElement, "sensor", this.sensor);
+    this.db.forSensor(this.sensor).subscribe((nowdata: NowDataModel | null) => {
+      // this.renderer.setStyle(this.element.nativeElement, "background-image", `url(${nowdata?.image}), linear-gradient(#f17a65 ${nowdata?.tempGradient}, #3dcadf)`);
+      this.renderer.setStyle(this.element.nativeElement, "background-image", `linear-gradient(#f17a65 ${nowdata?.tempGradient}, #3dcadf)`);
     });
-}
+  }
 
 }

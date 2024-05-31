@@ -1,21 +1,11 @@
-<div
-    id="termometer"
-    *ngIf="($nowdata | async) as nowdata"
->
-    <div
-        id="temperature"
-        [ngStyle]="{height: nowdata.tempHeight}"
-        [attr.data-value]="nowdata.tempLabel"
-    ></div>
-    <div id="graduations"></div>
-</div>
+<div class="spacer"></div>
+<app-termometer [data]="$nowdata"></app-termometer>
 <div
     info
     *ngIf="($nowdata | async) as nowdata"
 >
 
     <h1 label>
-        <mat-icon>heat</mat-icon>
         {{nowdata.tempLabel}}
     </h1>
     <h4>
@@ -24,3 +14,4 @@
     </h4>
     <div timestamp>{{nowdata.timestamp|amTimeAgo}}</div>
 </div>
+<div class="spacer"></div>

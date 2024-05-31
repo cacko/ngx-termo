@@ -1,4 +1,5 @@
 import moment, { Moment } from 'moment';
+import { SensorLocation } from './location.emtity';
 
 
 export enum API {
@@ -8,10 +9,6 @@ export enum API {
     CDN = "https://cdn.cacko.net/termo"
 };
 
-export enum SensorLocation {
-    INDOOR = "indoor",
-    OUTDOOR = "outdoor"
-}
 
 export interface NowDataEntity {
     humid: number;
