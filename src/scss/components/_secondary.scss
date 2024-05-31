@@ -1,47 +1,48 @@
 @use "@angular/material" as mat;
 
 @mixin apply-theme($theme) {
-    app-secondary {
-        position: fixed;
-        top: 1rem;
-        right: 1rem;
-        width: 7rem;
+  app-secondary {
+    position: fixed;
+    top: 0.5em;
+    right: 0.5em;
+    width: 6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.5);
+    background-blend-mode: color-burn;
+    border-radius: 1rem;
+    div {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      row-gap: 0;
+      flex-wrap: nowrap;
+      [location] {
+        padding: 0;
         display: flex;
+        flex-direction: row;
+        text-transform: uppercase;
         align-items: center;
-        justify-content: center;
-        z-index: 1;
-        background-color: rgba(0,0,0,0.5);
-        background-blend-mode: color-burn;
-        border-radius: 1rem;
-        div {
-            padding: 1rem;
-            display: flex;
-            width: 100%;
-            flex-direction: column;
-            row-gap: 0;
-            flex-wrap: nowrap;
-            [location] {
-                padding: 0;
-                display: flex;
-                flex-direction: row;
-                text-transform: uppercase;
-                align-items: center;
-            }
-            [temp] {
-                display: flex;
-                padding: 0;
-                flex-direction: row;
-                text-transform: uppercase;
-                align-items: center;
-            }
-            [humid] {
-                display: flex;
-                padding: 0;
-                flex-direction: row;
-                text-transform: uppercase;
-                align-items: center;
-            }
-        }
-
+        color: mat.get-theme-color($theme, primary);
+      }
+      [temp] {
+        display: flex;
+        padding: 0;
+        flex-direction: row;
+        text-transform: uppercase;
+        align-items: center;
+      }
+      [humid] {
+        display: flex;
+        padding: 0;
+        flex-direction: row;
+        text-transform: uppercase;
+        align-items: center;
+      }
     }
+  }
 }
