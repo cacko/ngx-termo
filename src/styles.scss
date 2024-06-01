@@ -25,19 +25,20 @@ $my-typography: mat.define-typography(
     plain-family: "Jersey 15",
   )
 );
-@include mat.typography-hierarchy($my-typography);
-@import "./scss/components/temp";
-@import "./scss/components/spacer";
-@import "./scss/components/now";
-@import "./scss/components/background";
-@import "./scss/components/livetemp";
-@import "./scss/components/loader";
-@include my-temp.apply-theme($my-theme);
-@include my-termometer.apply-theme($my-theme);
-@include my-secondary.apply-theme($my-theme);
+
 html {
   @include mat.core-theme($my-theme);
   @include mat.all-component-themes($my-theme);
+  @include mat.typography-hierarchy($my-typography);
+  @import "./scss/components/temp";
+  @import "./scss/components/spacer";
+  @import "./scss/components/now";
+  @import "./scss/components/background";
+  @import "./scss/components/livetemp";
+  @import "./scss/components/loader";
+  @include my-temp.apply-theme($my-theme);
+  @include my-termometer.apply-theme($my-theme);
+  @include my-secondary.apply-theme($my-theme);
   box-sizing: border-box;
   padding: 0;
   margin: 0;

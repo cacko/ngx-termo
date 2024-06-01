@@ -50,9 +50,6 @@ export class TempComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.render.setAttribute(this.element.nativeElement, "sensor", this.sensor);
     this.$nowdata = this.db.forSensor(this.sensor);
-    this.subscription = this.db.forSensor(this.sensor).subscribe((nowdata: NowDataModel | null) => {
-      this.render.setStyle(this.element.nativeElement, "background-image", `url(${nowdata?.image}), linear-gradient(rgba(241,122,101,1) ${nowdata?.tempGradient}, rgb(61,202,223, 1))`);
-    });
   }
 
 }

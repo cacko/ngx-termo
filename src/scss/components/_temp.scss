@@ -9,10 +9,6 @@
     align-items: center;
     height: 100%;
     width: 100%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-blend-mode: soft-light;
 
     @media only screen and (max-height: 600px) {
       flex-direction: row;
@@ -30,7 +26,7 @@
       align-items: center;
       row-gap: 0;
       justify-content: center;
-      @media only screen and (orientation: landscape) {
+      @media only screen and (max-height: 600px) {
         height: 100%;
         z-index: 10;
       }

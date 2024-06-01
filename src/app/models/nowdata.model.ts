@@ -95,6 +95,6 @@ export class NowDataModel implements NowDataEntity {
     }
 
     get outdoorImage() {
-        return 'https://cdn.cacko.net/termo/outdoor.webp';
+        return 'https://cdn.cacko.net/termo/outdoor-day.webp';
     }
 }

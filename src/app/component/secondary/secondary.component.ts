@@ -48,8 +48,8 @@ export class SecondaryComponent implements OnInit, OnChanges {
     this.subscription = this.db.forSensor(this.sensor).subscribe((nowdata: NowDataModel | null) => {
       this.render.setStyle(this.element.nativeElement, "background-image", `linear-gradient(#f17a65 ${nowdata?.tempGradient}, #3dcadf)`);
     });
-
-
   }
+
+  
 
 }
