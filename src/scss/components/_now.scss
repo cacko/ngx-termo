@@ -5,6 +5,12 @@ app-now {
   width: 100%;
   align-items: center;
   justify-content: center;
+  >h1 {
+    position: fixed;
+    top: 0.5em;
+    text-transform: uppercase;
+    left: 0.5em;
+  }
   app-temp {
     height: 100%;
   }

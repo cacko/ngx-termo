@@ -54,7 +54,7 @@ export class LivetempComponent implements OnInit, OnChanges {
         enabled: false
       },
       datalabels: {
-        color: '#000',
+        color: '#fff',
         display: 'auto',
         align: 'start',
         clamp: true,
@@ -68,7 +68,7 @@ export class LivetempComponent implements OnInit, OnChanges {
           const dIdx = context.dataIndex;
           const data = context.dataset.data as Array<any>;
           const previous = data[dIdx - 1] || null;
-          return previous && previous.y == value.y ? null : value.y + "°C";
+          return value.y.toFixed(1) + "°C";
         }
       }
     },
@@ -97,7 +97,7 @@ export class LivetempComponent implements OnInit, OnChanges {
         },
         ticks: {
           callback: function (value, index, ticks) {
-            return value + "°C";
+            return Number(value).toFixed(1) + "°C";
           },
           stepSize: 0.1,
         }
@@ -109,6 +109,7 @@ export class LivetempComponent implements OnInit, OnChanges {
       {
         data: [],
         label: 'R201',
+        fill: true,
         // borderColor: function (context: any) {
         //   console.log(context);
         //   const chart = context.chart;
@@ -165,7 +166,7 @@ export class LivetempComponent implements OnInit, OnChanges {
       this.currentData = last(models) as NowDataModel;
       this.chartData.datasets[0].data = data;
       this.chart?.update();
-      this.timer = interval(5000).subscribe(() => {
+      this.timer = interval(15000).subscribe(() => {
         this.currentData.timestamp = moment().toISOString();
         this.update();
       });

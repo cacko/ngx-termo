@@ -14,7 +14,8 @@ import { SecondaryComponent } from '../secondary/secondary.component';
     TempComponent,
     LivetempComponent,
     BackgroundComponent,
-    SecondaryComponent
+    SecondaryComponent,
+    
   ],
   templateUrl: './now.component.html',
   styleUrl: './now.component.scss'
