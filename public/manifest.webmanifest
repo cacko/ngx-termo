@@ -1,7 +1,7 @@
 {
   "name": "Termo",
   "short_name": "teRMo",
-  "theme_color": "#bc5d00",
+  "theme_color": "#783d32",
   "background_color": "#38383F",
   "display": "standalone",
   "scope": "./",
