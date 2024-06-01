@@ -9,6 +9,7 @@ import { LocalStorageService } from 'ngx-localstorage';
 import moment, { Moment } from 'moment';
 import { LoaderService } from './loader.service';
 import { NowDataModel } from '../models/nowdata.model';
+import { SensorLocation } from '../entity/location.emtity';
 
 
 @Injectable({
@@ -55,8 +56,17 @@ export class ApiService {
   //   this.storage.set("entities", value);
   // }
 
+  private hourAction(location: SensorLocation): API {
+    switch (location) {
+      case SensorLocation.INDOOR:
+        return API.ACTION_INDOOR_HOUR;
+      case SensorLocation.OUTDOOR:
+        return API.ACTION_OUTDOOR_HOUR;
+    }
+  }
 
-  getHistory(useCache: boolean = true): Observable<NowDataModel[]> {
+
+  getHistory(location: SensorLocation, useCache: boolean = true): Observable<NowDataModel[]> {
     return new Observable((subscriber: any) => {
       // const entities = this.entities;
       // const idx = findIndex(entities, { slug: id });
@@ -64,8 +74,9 @@ export class ApiService {
       //   subscriber.next(entities[idx]);
       //   return;
       // }
+
       this.loader.show();
-      this.http.get(`${API.URL}/${API.ACTION_INDOOR_HOUR}`, {
+      this.http.get(`${API.URL}/${this.hourAction(location)}`, {
         headers: this.headers,
         withCredentials: true,
       }).subscribe({
@@ -81,46 +92,46 @@ export class ApiService {
     });
   }
 
-//   getGenerations(): any {
-//     return new Observable((subscriber: any) => {
-//       let lastModified = this.lastModified;
-//       if (lastModified) {
-//         subscriber.next(this.entities);
-//         return;
-//       }
-//       lastModified = moment.unix(0).utc();
-//       this.http.get(`${API.URL}/${API.ACTION_GENERATED}`, {
-//         headers: this.headers,
-//         withCredentials: true,
-//         observe: 'response',
-//         params: { limit: 10, last_modified: lastModified.format() }
-//       }).pipe(
-//         expand((res) => {
-//           const nextPage = res.headers.get('x-pagination-next');
-//           const pageNo = parseInt(String(res.headers.get('x-pagination-page')));
-//           return nextPage
-//             ? this.http.get(nextPage, {
-//               headers: { 'X-User-Token': this.userToken },
-//               observe: 'response',
-//             }).pipe(delay(100))
-//             : EMPTY;
-//         }),
-//         reduce((acc, current): any => {
-//           const data = current.body as GeneratedEntitty[];
-//           const pageNo = parseInt(String(current.headers.get('x-pagination-page')));
-//           return concat(acc, data);
-//         }, []),
-//         tap((res) => {
-//           this.entities = res;
-//           this.lastModified = moment().utc();
-//         })).subscribe({
-//           next: (data: any) => {
-//             subscriber.next(data);
-//           },
-//           error: (error: any) => console.debug(error),
-//         });
-//     });
-//   }
+  //   getGenerations(): any {
+  //     return new Observable((subscriber: any) => {
+  //       let lastModified = this.lastModified;
+  //       if (lastModified) {
+  //         subscriber.next(this.entities);
+  //         return;
+  //       }
+  //       lastModified = moment.unix(0).utc();
+  //       this.http.get(`${API.URL}/${API.ACTION_GENERATED}`, {
+  //         headers: this.headers,
+  //         withCredentials: true,
+  //         observe: 'response',
+  //         params: { limit: 10, last_modified: lastModified.format() }
+  //       }).pipe(
+  //         expand((res) => {
+  //           const nextPage = res.headers.get('x-pagination-next');
+  //           const pageNo = parseInt(String(res.headers.get('x-pagination-page')));
+  //           return nextPage
+  //             ? this.http.get(nextPage, {
+  //               headers: { 'X-User-Token': this.userToken },
+  //               observe: 'response',
+  //             }).pipe(delay(100))
+  //             : EMPTY;
+  //         }),
+  //         reduce((acc, current): any => {
+  //           const data = current.body as GeneratedEntitty[];
+  //           const pageNo = parseInt(String(current.headers.get('x-pagination-page')));
+  //           return concat(acc, data);
+  //         }, []),
+  //         tap((res) => {
+  //           this.entities = res;
+  //           this.lastModified = moment().utc();
+  //         })).subscribe({
+  //           next: (data: any) => {
+  //             subscriber.next(data);
+  //           },
+  //           error: (error: any) => console.debug(error),
+  //         });
+  //     });
+  //   }
 }
 
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { NowDataModel } from '../../models/nowdata.model';
 import { ApiService } from '../../service/api.service';
 import { BaseChartDirective } from 'ng2-charts';
@@ -7,12 +7,13 @@ import { ChartConfiguration, Chart, } from 'chart.js';
 import moment, { Moment } from 'moment';
 import { DatabaseService } from '../../service/db.service';
 import { last, takeRightWhile } from 'lodash-es';
-import { interval } from 'rxjs';
+import { Subscription, interval } from 'rxjs';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Context } from 'chartjs-plugin-datalabels';
 
 
 import 'chartjs-adapter-moment';
+import { SensorLocation } from '../../entity/location.emtity';
 
 const CHART_COLORS = {
   red: '#E6836B',
@@ -37,7 +38,11 @@ let current_level: string = "";
   templateUrl: './livetemp.component.html',
   styleUrl: './livetemp.component.scss'
 })
-export class LivetempComponent implements OnInit {
+export class LivetempComponent implements OnInit, OnChanges {
+
+  @Input() sensor !: SensorLocation;
+  sub ?: Subscription;
+  timer ?: Subscription;
 
   public chartOptions: ChartConfiguration['options'] = {
     maintainAspectRatio: false,
@@ -147,18 +152,24 @@ export class LivetempComponent implements OnInit {
 
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+      this.timer?.unsubscribe();
+      this.sub?.unsubscribe();
+      this.ngOnInit();
+  }
+
 
   ngOnInit(): void {
-    this.api.getHistory().subscribe((models: NowDataModel[]) => {
+    this.api.getHistory(this.sensor).subscribe((models: NowDataModel[]) => {
       const data = models.map((m) => ({ y: m.temp, x: m.timestampDate }));
       this.currentData = last(models) as NowDataModel;
       this.chartData.datasets[0].data = data;
       this.chart?.update();
-      interval(5000).subscribe(() => {
+      this.timer = interval(5000).subscribe(() => {
         this.currentData.timestamp = moment().toISOString();
         this.update();
       });
-      this.db.$indoor.subscribe((data: any) => {
+      this.sub = this.db.forSensor(this.sensor).subscribe((data: any) => {
         this.currentData = data as NowDataModel;
       });
     });
