@@ -5,14 +5,13 @@ app-background {
   top: 0;
   height: 100%;
   width: 100%;
-  background-image: linear-gradient(#f17a65, #3dcadf);
   background-repeat: no-repeat;
   background-position: bottom;
   background-blend-mode: screen;
   background-size: cover;
   img {
-    mix-blend-mode: darken;
-    opacity: 0.5;
+    mix-blend-mode: lighten;
+    opacity: 0.6;
     object-fit: cover;
     object-position: center;
     width: 100%;

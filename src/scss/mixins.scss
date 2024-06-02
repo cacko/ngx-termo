@@ -1,0 +1,112 @@
+@use "sass:map";
+@use "sass:math";
+@use "@angular/material" as mat;
+
+$hours: (
+  (
+    hour: 0,
+    bgr: rgba(0, 0, 0, 0.8),
+  ),
+  (
+    hour: 1,
+    bgr: rgba(0, 0, 0, 0.8),
+  ),
+  (
+    hour: 2,
+    bgr: rgba(0, 0, 0, 0.8),
+  ),
+  (
+    hour: 3,
+    bgr: rgba(0, 0, 0, 0.8),
+  ),
+  (
+    hour: 4,
+    bgr: rgba(0, 0, 0, 0.7),
+  ),
+  (
+    hour: 5,
+    bgr: rgba(0, 0, 0, 0.6),
+  ),
+  (
+    hour: 6,
+    bgr: rgba(0, 0, 0, 0.4),
+  ),
+  (
+    hour: 7,
+    bgr: rgba(0, 0, 0, 0.3),
+  ),
+  (
+    hour: 8,
+    bgr: rgba(0, 0, 0, 0),
+  ),
+  (
+    hour: 9,
+    bgr: rgba(0, 0, 0, 0),
+  ),
+  (
+    hour: 10,
+    bgr: rgba(0, 0, 0, 0),
+  ),
+  (
+    hour: 11,
+    bgr: rgba(0, 0, 0, 0),
+  ),
+  (
+    hour: 12,
+    bgr: rgba(0, 0, 0, 0),
+  ),
+  (
+    hour: 13,
+    bgr: rgba(0, 0, 0, 0),
+  ),
+  (
+    hour: 14,
+    bgr: rgba(0, 0, 0, 0),
+  ),
+  (
+    hour: 15,
+    bgr: rgba(0, 0, 0, 0),
+  ),
+  (
+    hour: 16,
+    bgr: rgba(0, 0, 0, 0),
+  ),
+  (
+    hour: 17,
+    bgr: rgba(0, 0, 0, 0),
+  ),
+  (
+    hour: 18,
+    bgr: rgba(0, 0, 0, 0.2),
+  ),
+  (
+    hour: 19,
+    bgr: rgba(0, 0, 0, 0.3),
+  ),
+  (
+    hour: 20,
+    bgr: rgba(0, 0, 0, 0.4),
+  ),
+  (
+    hour: 21,
+    bgr: rgba(0, 0, 0, 0.5),
+  ),
+  (
+    hour: 22,
+    bgr: rgba(0, 0, 0, 0.7),
+  ),
+  (
+    hour: 23,
+    bgr: rgba(0, 0, 0, 0.8),
+    
+  )
+);
+
+@mixin hour-modifiers() {
+  @each $hour in $hours {
+    $i: map.get($hour, hour);
+    &[#{hour}="#{$i}"] {
+      background-color: map.get($hour, bgr);
+    }
+  }
+}

@@ -37,7 +37,7 @@ export class BackgroundComponent implements AfterViewInit, OnChanges {
   ngAfterViewInit(): void {
     this.renderer.setAttribute(this.element.nativeElement, "sensor", this.sensor);
     this.dbSub = this.db.forSensor(this.sensor).subscribe((nowdata: NowDataModel | null) => {
-      this.renderer.setStyle(this.element.nativeElement, "background-image", `linear-gradient(rgb(241,122,101) ${nowdata?.tempGradient}, rgb(61,202,223))`);
+      this.renderer.setStyle(this.element.nativeElement, "background-image", `linear-gradient(rgba(241,122,101,0.3) ${nowdata?.tempGradient}, rgba(61,202,223,0.4))`);
       this.imgSrc = nowdata?.image;
     });
   }

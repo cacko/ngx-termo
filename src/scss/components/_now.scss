@@ -1,21 +1,37 @@
-app-now {
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  >h1 {
-    position: fixed;
-    top: 0.5em;
-    text-transform: uppercase;
-    left: 0.5em;
-  }
-  app-temp {
+@use "@angular/material" as mat;
+@use "../mixins.scss";
+@use "sass:color";
+
+@mixin apply-theme($theme) {
+  app-now {
+    display: flex;
+    flex-direction: row;
     height: 100%;
-  }
-  app-livetemp {
-    position: fixed;
-    height: 20vh;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    @include mixins.hour-modifiers();
+
+    > h1 {
+      position: fixed;
+      top: 0.5rem;
+      text-transform: uppercase;
+      left: 0.5rem;
+      color: mat.get-theme-color($theme, surface);
+      @media only screen and (max-width: 600px), screen and (max-height: 500px)  {
+        writing-mode: vertical-lr;
+        transform: rotate(180deg);
+        left: 0;
+
+      }
+
+    }
+    app-temp {
+      height: 100%;
+    }
+    app-livetemp {
+      position: fixed;
+      height: 20vh;
+    }
   }
 }

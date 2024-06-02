@@ -3,26 +3,27 @@
 @use "./scss/components/temp" as my-temp;
 @use "./scss/components/termometer" as my-termometer;
 @use "./scss/components/secondary" as my-secondary;
+@use "./scss/components/now" as my-now;
 @include mat.core();
 
 $my-theme: mat.define-theme(
   (
     color: (
       theme-type: dark,
-      primary: mat.$chartreuse-palette,
+      primary: mat.$cyan-palette,
     ),
     typography: (
-      plain-family: "Jersey 15",
-      brand-family: "Jersey 15",
+      plain-family: "Lacquer",
+      brand-family: "Lacquer",
     ),
     density: (
-      scale: -5,
+      scale: -3,
     ),
   )
 );
 $my-typography: mat.define-typography(
   (
-    plain-family: "Jersey 15",
+    plain-family: "Lacquer",
   )
 );
 
@@ -30,9 +31,9 @@ html {
   @include mat.core-theme($my-theme);
   @include mat.all-component-themes($my-theme);
   @include mat.typography-hierarchy($my-typography);
+  @include my-now.apply-theme($my-theme);
   @import "./scss/components/temp";
   @import "./scss/components/spacer";
-  @import "./scss/components/now";
   @import "./scss/components/background";
   @import "./scss/components/livetemp";
   @import "./scss/components/loader";

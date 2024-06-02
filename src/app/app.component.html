@@ -1,2 +1,7 @@
 <app-loader></app-loader>
 <router-outlet></router-outlet>
+<div clock *ngIf="($time | async) as time ">
+    <div hour>{{time.hour}}</div>
+    <div separator>:</div>
+    <div minutes>{{time.minutes}}</div>
+</div>

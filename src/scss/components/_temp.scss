@@ -23,8 +23,11 @@
     div[info] {
       display: flex;
       flex-direction: column;
+      background-color: rgba(0,0,0,0.7);;
+      padding: 0.3rem;
       align-items: center;
       row-gap: 0;
+      width: 100%;
       justify-content: center;
       @media only screen and (max-height: 600px) {
         height: 100%;
@@ -37,7 +40,7 @@
         margin-block: 0;
         line-height: 100%;
         padding: 0;
-        color: mat.get-theme-color($theme, surface);
+        color: mat.get-theme-color($theme, outline);
         mat-icon {
           font-size: inherit !important;
           line-height: inherit !important;
@@ -49,12 +52,15 @@
         display: inline-flex;
         align-items: center;
         margin: 0;
-        color: mat.get-theme-color($theme, surface-dim);
+        color: mat.get-theme-color($theme, outline);
+        animation: bling 2s infinite;
+        animation-play-state: running;
         mat-icon {
           font-size: inherit !important;
           line-height: inherit !important;
           width: fit-content;
           height: fit-content;
+
         }
       }
     }
