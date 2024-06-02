@@ -24,7 +24,6 @@ import { TermometerComponent } from '../termometer/termometer.component';
     TermometerComponent
   ],
   templateUrl: './temp.component.html',
-  styleUrl: './temp.component.scss'
 })
 export class TempComponent implements OnInit, OnChanges {
 

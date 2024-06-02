@@ -1,4 +1,4 @@
-import { NowDataEntity } from "../entity/api.entity";
+ import { NowDataEntity } from "../entity/api.entity";
 import moment, { Moment } from 'moment';
 import { SensorLocation } from "../entity/location.emtity";
 
@@ -22,7 +22,8 @@ export class NowDataModel implements NowDataEntity {
     }
 
     get tempGradient() {
-        return ((this.temp - this.MIN_TEMP) / (this.MAX_TEMP - this.MIN_TEMP) * 100) + '%';
+        const heat= ((this.temp - this.MIN_TEMP) / (this.MAX_TEMP - this.MIN_TEMP) * 100) + '%';
+        return `linear-gradient(rgba(241,122,101,0.3) ${heat}, rgba(61,202,223,0.4))`;
     }
 
     get tempHeight() {

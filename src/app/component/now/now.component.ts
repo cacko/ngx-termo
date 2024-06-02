@@ -20,7 +20,6 @@ import { TimeService } from '../../service/time.service';
     MomentModule
   ],
   templateUrl: './now.component.html',
-  styleUrl: './now.component.scss'
 })
 export class NowComponent implements AfterViewInit {
 

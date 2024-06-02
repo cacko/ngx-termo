@@ -10,7 +10,6 @@ import { NowDataModel } from '../../models/nowdata.model';
     CommonModule
   ],
   templateUrl: './termometer.component.html',
-  styleUrl: './termometer.component.scss'
 })
 export class TermometerComponent{
 

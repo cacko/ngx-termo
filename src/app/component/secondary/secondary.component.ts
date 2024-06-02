@@ -19,7 +19,6 @@ import { BackgroundComponent } from '../background/background.component';
     BackgroundComponent
   ],
   templateUrl: './secondary.component.html',
-  styleUrl: './secondary.component.scss'
 })
 export class SecondaryComponent implements OnInit, OnChanges {
 
@@ -46,7 +45,7 @@ export class SecondaryComponent implements OnInit, OnChanges {
     this.render.setAttribute(this.element.nativeElement, "sensor", this.sensor);
     this.$nowdata = this.db.forSensor(this.sensor);
     this.subscription = this.db.forSensor(this.sensor).subscribe((nowdata: NowDataModel | null) => {
-      this.render.setStyle(this.element.nativeElement, "background-image", `linear-gradient(#f17a65 ${nowdata?.tempGradient}, #3dcadf)`);
+      this.render.setStyle(this.element.nativeElement, "background-image", nowdata?.tempGradient);
     });
   }
 

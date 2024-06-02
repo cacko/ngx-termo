@@ -1,4 +1,4 @@
-import { Component, Host, OnInit, inject, isDevMode } from '@angular/core';
+import { Component, OnInit, inject, isDevMode } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { Analytics, setAnalyticsCollectionEnabled } from '@angular/fire/analytics';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
@@ -11,17 +11,12 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { SwUpdate, VersionEvent } from '@angular/service-worker';
-import { Observable, interval, map, startWith } from 'rxjs';
+import { interval } from 'rxjs';
 import { BackgroundComponent } from './component/background/background.component';
 import { TimeService } from './service/time.service';
 import moment from 'moment-timezone';
+import { ClockComponent } from './component/clock/clock.component';
 
-
-
-interface Time {
-  minutes: string;
-  hour: string;
-}
 
 @Component({
   selector: 'app-root',
@@ -34,16 +29,15 @@ interface Time {
     MatToolbarModule,
     MatButtonModule,
     MatDividerModule,
-    BackgroundComponent
+    BackgroundComponent,
+    ClockComponent
   ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
   title = 'termo';
   $user = this.userService.user;
   $loader = this.loader.$visible;
-  $time: Observable<Time | null>;
 
   constructor(
     private router: Router,
@@ -59,19 +53,7 @@ export class AppComponent implements OnInit {
     this.loader.show();
     this.iconRegister.setDefaultFontSetClass('material-symbols-sharp');
     setAnalyticsCollectionEnabled(this.analytics, true);
-    const time_obj = () => {
-      const now = moment().utc();
-      const bst = now.tz('Europe/London');
-      return {
-        hour: now.format('HH'),
-        minutes: now.format('mm')
-      };
-    };
-    this.$time = interval(60000)
-      .pipe(
-        map(() => time_obj()),
-        startWith(time_obj())
-      );
+
     this.userService.user.subscribe((res) => {
       if (res?.uid) {
         this.db.init();

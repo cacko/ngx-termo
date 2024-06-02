@@ -36,7 +36,6 @@ let current_level: string = "";
     BaseChartDirective
   ],
   templateUrl: './livetemp.component.html',
-  styleUrl: './livetemp.component.scss'
 })
 export class LivetempComponent implements OnInit, OnChanges {
 

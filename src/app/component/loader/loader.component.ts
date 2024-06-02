@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
+import {  Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { LoaderService } from '../../service/loader.service';
 
@@ -8,7 +8,6 @@ import { LoaderService } from '../../service/loader.service';
   standalone: true,
   imports: [CommonModule, MatProgressBarModule],
   templateUrl: './loader.component.html',
-  styleUrl: './loader.component.scss'
 })
 export class LoaderComponent implements OnInit {
 
