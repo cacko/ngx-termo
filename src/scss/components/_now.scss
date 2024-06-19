@@ -16,15 +16,23 @@
       position: fixed;
       top: 0.5rem;
       text-transform: uppercase;
-      left: 0.5rem;
-      color: mat.get-theme-color($theme, surface);
-      @media only screen and (max-width: 600px), screen and (max-height: 500px)  {
-        writing-mode: vertical-lr;
-        transform: rotate(180deg);
-        left: 0;
+      color: mat.get-theme-color($theme, primary);
 
+      &[sensor="outdoor"] {
+        right: 0.5rem;
+        @media only screen and (max-width: 600px),
+          screen and (max-height: 500px) {
+          writing-mode: vertical-lr;
+        }
       }
-
+      &[sensor="indoor"] {
+        left: 0.5rem;
+        @media only screen and (max-width: 600px),
+          screen and (max-height: 500px) {
+          writing-mode: vertical-lr;
+          transform: rotate(180deg);
+        }
+      }
     }
     app-temp {
       height: 100%;

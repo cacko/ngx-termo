@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, Renderer2 } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, Renderer2 } from '@angular/core';
 import { TempComponent } from '../temp/temp.component';
 import { LivetempComponent } from '../livetemp/livetemp.component';
 import { SensorLocation } from '../../entity/location.emtity';
@@ -7,6 +7,8 @@ import { BackgroundComponent } from '../background/background.component';
 import { SecondaryComponent } from '../secondary/secondary.component';
 import { MomentModule } from 'ngx-moment';
 import { TimeService } from '../../service/time.service';
+import { LayoutModule } from '@angular/cdk/layout';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-now',
@@ -17,7 +19,8 @@ import { TimeService } from '../../service/time.service';
     LivetempComponent,
     BackgroundComponent,
     SecondaryComponent,
-    MomentModule
+    MomentModule,
+    LayoutModule
   ],
   templateUrl: './now.component.html',
 })
@@ -25,16 +28,21 @@ export class NowComponent implements AfterViewInit {
 
   primary: SensorLocation = SensorLocation.INDOOR;
   secondary: SensorLocation = SensorLocation.OUTDOOR;
+  livesensors = [this.primary, this.secondary];
+  $isLarge = this.breakpointObserver.observe([
+    Breakpoints.Large
+  ]);
 
   constructor(
     private element: ElementRef,
     private renderer: Renderer2,
-    private timeService: TimeService
+    private timeService: TimeService,
+    private breakpointObserver: BreakpointObserver
   ) {
 
   }
 
-  onSecondary(event: MouseEvent) {
+  onSecondary(event: UIEvent) {
     event.stopPropagation();
     this.primary = this.primary == SensorLocation.INDOOR ? SensorLocation.OUTDOOR : SensorLocation.INDOOR;
     this.secondary = this.secondary == SensorLocation.INDOOR ? SensorLocation.OUTDOOR : SensorLocation.INDOOR;
@@ -42,9 +50,13 @@ export class NowComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-      this.timeService.$hour.subscribe((hour: number) => {
-        this.renderer.setAttribute(this.element.nativeElement, "hour", `${hour}`);
-      })
+    this.timeService.$hour.subscribe((hour: number) => {
+      this.renderer.setAttribute(this.element.nativeElement, "hour", `${hour}`);
+    });
+  }
+
+  @HostListener('dblclick') onDoubleClick(event: UIEvent) {
+    this.onSecondary(event);
   }
 
 }

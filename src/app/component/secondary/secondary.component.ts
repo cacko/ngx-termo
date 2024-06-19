@@ -8,6 +8,8 @@ import { SensorLocation } from '../../entity/location.emtity';
 import { TermometerComponent } from '../termometer/termometer.component';
 import { MatIconModule } from '@angular/material/icon';
 import { BackgroundComponent } from '../background/background.component';
+import {MatRippleModule} from '@angular/material/core';
+import {MatCardModule} from '@angular/material/card';
 
 @Component({
   selector: 'app-secondary',
@@ -16,7 +18,9 @@ import { BackgroundComponent } from '../background/background.component';
     CommonModule,
     TermometerComponent,
     MatIconModule,
-    BackgroundComponent
+    BackgroundComponent,
+    MatRippleModule,
+    MatCardModule
   ],
   templateUrl: './secondary.component.html',
 })

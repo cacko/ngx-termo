@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { ChartConfiguration, Chart, } from 'chart.js';
 import moment, { Moment } from 'moment';
 import { DatabaseService } from '../../service/db.service';
-import { last, takeRightWhile } from 'lodash-es';
+import { forEach, last, takeRightWhile } from 'lodash-es';
 import { Subscription, interval } from 'rxjs';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Context } from 'chartjs-plugin-datalabels';
@@ -25,8 +25,9 @@ const CHART_COLORS = {
 
 Chart.register(ChartDataLabels);
 
-let current_level: string = "";
-
+interface CurrentData {
+  [key: number]: NowDataModel;
+}
 
 @Component({
   selector: 'app-livetemp',
@@ -39,9 +40,9 @@ let current_level: string = "";
 })
 export class LivetempComponent implements OnInit, OnChanges {
 
-  @Input() sensor !: SensorLocation;
-  sub ?: Subscription;
-  timer ?: Subscription;
+  @Input() sensors: SensorLocation[] = [];
+  sub?: Subscription;
+  timer?: Subscription;
 
   public chartOptions: ChartConfiguration['options'] = {
     maintainAspectRatio: false,
@@ -91,6 +92,8 @@ export class LivetempComponent implements OnInit, OnChanges {
       y: {
         display: false,
         offset: true,
+        min: 0,
+        max: 40,
         grid: {
           display: false
         },
@@ -104,46 +107,18 @@ export class LivetempComponent implements OnInit, OnChanges {
     },
   };
   public chartData: any = {
-    datasets: [
-      {
-        data: [],
-        label: 'R201',
-        fill: true,
-        // borderColor: function (context: any) {
-        //   console.log(context);
-        //   const chart = context.chart;
-        //   const { ctx, chartArea } = chart;
-
-        //   if (!chartArea) {
-        //     // This case happens on initial chart load
-        //     return;
-        //   }
-
-        //   if (!('parsed' in context)) {
-        //     return current_level;
-        //   }
-
-        //   const temp = context.parsed.y;
-        //   const levels = [
-        //     { min: 30, color: CHART_COLORS.orange },
-        //     { min: 24, color: CHART_COLORS.red },
-        //     { min: 15, color: CHART_COLORS.green },
-        //     { min: 5, color: CHART_COLORS.blue },
-        //     { min: -20, color: CHART_COLORS.grey }
-        //   ];
-
-        //   const f_min = takeRightWhile(levels, (l) => temp > l.min)[0];
-        //   current_level = f_min.color;
-        //   return current_level;
-        // },
-      }
-    ],
+    datasets: [],
     labels: []
   };
 
   @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
 
-  private currentData !: NowDataModel;
+  private currentData: CurrentData = {}
+
+  dataSets = {
+    [SensorLocation.INDOOR]: 0,
+    [SensorLocation.OUTDOOR]: 1
+  };
 
   constructor(
     private api: ApiService,
@@ -153,37 +128,51 @@ export class LivetempComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-      this.timer?.unsubscribe();
-      this.sub?.unsubscribe();
-      this.ngOnInit();
+    this.timer?.unsubscribe();
+    this.sub?.unsubscribe();
+    this.ngOnInit();
   }
 
 
   ngOnInit(): void {
-    this.api.getHistory(this.sensor).subscribe((models: NowDataModel[]) => {
-      const data = models.map((m) => ({ y: m.temp, x: m.timestampDate }));
-      this.currentData = last(models) as NowDataModel;
-      this.chartData.datasets[0].data = data;
-      this.chart?.update();
-      this.timer = interval(15000).subscribe(() => {
-        this.currentData.timestamp = moment().toISOString();
-        this.update();
+    this.chartData.datasets = [];
+    for (const sensor of this.sensors) {
+      this.chartData.datasets[this.dataSets[sensor]] = {
+        data: [],
+        label: sensor,
+        fill: true
+      };
+      this.api.getHistory(sensor).subscribe((models: NowDataModel[]) => {
+        const data = models.map((m) => ({ y: m.temp, x: m.timestampDate }));
+        this.currentData[this.dataSets[sensor]] = last(models) as NowDataModel;
+        this.chartData.datasets[this.dataSets[sensor]].data = data;
+        Object.keys(this.currentData).length == this.sensors.length && this.update();
+        this.sub = this.db.forSensor(sensor).subscribe((data: any) => {
+          this.currentData[this.dataSets[sensor]] = data as NowDataModel;
+        });
       });
-      this.sub = this.db.forSensor(this.sensor).subscribe((data: any) => {
-        this.currentData = data as NowDataModel;
-      });
+    }
+
+    this.timer = interval(15000).subscribe(() => {
+      this.update();
     });
+
   }
 
   private update() {
-    this.chartData.datasets[0].data.shift();
-    this.chartData.datasets[0].data.push({
-      x: this.currentData.timestampDate,
-      y: this.currentData.temp
-    });
+    const tick = moment().toISOString();
+    Object.entries(this.currentData)
+      .forEach(
+        ([idx, nd]) => {
+          nd.timestamp = tick;
+          const ds = this.chartData.datasets[idx];
+          ds.data.shift();
+          ds.data.push({
+            x: nd.timestampDate,
+            y: nd.temp
+          });
+        }
+      );
     this.chart?.update();
   }
-
-
-
 }

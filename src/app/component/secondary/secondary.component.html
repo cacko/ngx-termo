@@ -1,13 +1,16 @@
-<div *ngIf="($nowdata | async) as nowdata">
-    <div location>
-        {{sensor}}
-    </div>
-    <div temp>
-        <mat-icon>thermometer</mat-icon>
-        {{nowdata.tempLabel}}
-    </div>
-    <div humid>
-        <mat-icon>{{nowdata.humidIcon}}</mat-icon>
-        {{nowdata.humidLabel}}
-    </div>
-</div>
+<mat-card rq  matRipple raised *ngIf="($nowdata | async) as nowdata">
+    <mat-card-header>
+       <mat-card-title>{{sensor}}</mat-card-title> 
+    </mat-card-header>
+    <mat-card-content>
+        <div temp>
+            <mat-icon>thermometer</mat-icon>
+            {{nowdata.tempLabel}}
+        </div>
+        <div humid>
+            <mat-icon>{{nowdata.humidIcon}}</mat-icon>
+            {{nowdata.humidLabel}}
+        </div>
+    </mat-card-content>
+
+</mat-card>

@@ -1,4 +1,20 @@
-<app-secondary [sensor]="secondary" (click)="onSecondary($event)"></app-secondary>
-<app-temp [sensor]="primary"></app-temp>
-<app-livetemp [sensor]="primary"></app-livetemp>
-<h1>{{primary}}</h1>
+<ng-container *ngIf="($isLarge | async) as isLarge">
+    <app-secondary
+        *ngIf="!isLarge.matches"
+        [sensor]="secondary"
+        (click)="onSecondary($event)"
+    ></app-secondary>
+    <app-temp [sensor]="primary"></app-temp>
+    <app-temp
+        [sensor]="secondary"
+        *ngIf="isLarge.matches"
+    ></app-temp>
+    <app-livetemp [sensors]="livesensors"></app-livetemp>
+    <h1 [attr.sensor]="primary">{{primary}}</h1>
+    <h1
+        [attr.sensor]="secondary"
+        *ngIf="isLarge.matches"
+    >
+        {{secondary}}
+    </h1>
+</ng-container>
