@@ -4,12 +4,15 @@ import { SensorLocation } from './location.emtity';
 
 export enum API {
     URL = "https://termo-api.cacko.net/api",
-    ACTION_INDOOR_NOW = "now/indoor",
-    ACTION_INDOOR_HOUR = "hour/indoor",
-    ACTION_OUTDOOR_NOW = "now/outdoor",
-    ACTION_OUTDOOR_HOUR = "hour/outdoor",
     CDN = "https://cdn.cacko.net/termo"
 };
+
+export enum PERIOD {
+    NOW = "now",
+    HOUR = "hour",
+    DAY = "day",
+    WEEK = "week"
+}
 
 
 export interface NowDataEntity {
@@ -18,4 +21,5 @@ export interface NowDataEntity {
     temp: number;
     timestamp: string;
     location: SensorLocation;
+    temp_min ?: number;
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject, tap, delay, EMPTY, expand, reduce } from 'rxjs';
-import { API, NowDataEntity } from '../entity/api.entity';
+import { API, NowDataEntity, PERIOD } from '../entity/api.entity';
 import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
 import { inject } from '@angular/core';
 import { concat, findIndex, findLastIndex } from 'lodash-es';
@@ -56,17 +56,13 @@ export class ApiService {
   //   this.storage.set("entities", value);
   // }
 
-  private hourAction(location: SensorLocation): API {
-    switch (location) {
-      case SensorLocation.INDOOR:
-        return API.ACTION_INDOOR_HOUR;
-      case SensorLocation.OUTDOOR:
-        return API.ACTION_OUTDOOR_HOUR;
-    }
+  private getAction(location: SensorLocation, period: PERIOD) {
+    return `${period}/${location}`;
   }
 
 
-  getHistory(location: SensorLocation, useCache: boolean = true): Observable<NowDataModel[]> {
+  getHistory(
+    location: SensorLocation,period: PERIOD,useCache: boolean = true): Observable<NowDataModel[]> {
     return new Observable((subscriber: any) => {
       // const entities = this.entities;
       // const idx = findIndex(entities, { slug: id });
@@ -76,7 +72,7 @@ export class ApiService {
       // }
 
       this.loader.show();
-      this.http.get(`${API.URL}/${this.hourAction(location)}`, {
+      this.http.get(`${API.URL}/${this.getAction(location, period)}`, {
         headers: this.headers,
         withCredentials: true,
       }).subscribe({

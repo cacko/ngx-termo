@@ -13,7 +13,6 @@ import { Subscription } from 'rxjs';
     NgOptimizedImage
   ],
   templateUrl: './background.component.html',
-  styleUrl: './background.component.scss'
 })
 export class BackgroundComponent implements AfterViewInit, OnChanges {
 

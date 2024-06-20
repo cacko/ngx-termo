@@ -1,0 +1,21 @@
+<div class="spacer"></div>
+<canvas baseChart [data]="chartData" [options]="chartOptions" [type]="'bar'"> </canvas>
+<div class="spacer"></div>
+<div history>
+    <button
+        routerLink="/"
+        mat-stroked-button
+        matRipple
+    >
+        <mat-icon>preliminary</mat-icon>
+        <span>now</span>
+    </button>
+    <button
+        routerLink="/day"
+        mat-stroked-button
+        matRipple
+    >
+        <mat-icon>today</mat-icon>
+        <span>day</span>
+    </button>
+</div>

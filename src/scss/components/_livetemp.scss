@@ -1,6 +1,10 @@
-app-livetemp {
+@use "@angular/material" as mat;
+
+@mixin apply-theme($theme) {
+  app-livetemp {
     display: flex;
     flex-direction: column;
     width: 100%;
     height: auto;
+  }
 }

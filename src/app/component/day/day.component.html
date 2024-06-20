@@ -1,0 +1,21 @@
+<div class="spacer"></div>
+<canvas baseChart [data]="chartData" [options]="chartOptions" [type]="'bar'"> </canvas>
+<div class="spacer"></div>
+<div history>
+    <button
+        routerLink="/"
+        mat-stroked-button
+        matRipple
+    >
+        <mat-icon>preliminary</mat-icon>
+        <span>now</span>
+    </button>
+    <button
+        routerLink="/week"
+        mat-stroked-button
+        matRipple
+    >
+        <mat-icon>view_week</mat-icon>
+        <span>week</span>
+    </button>
+</div>

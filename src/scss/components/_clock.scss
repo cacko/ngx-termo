@@ -1,6 +1,4 @@
 @use "@angular/material" as mat;
-@use "../mixins.scss";
-@use "sass:color";
 
 @mixin apply-theme($theme) {
   app-clock {
@@ -10,7 +8,7 @@
     position: fixed;
     left: 0;
     bottom: 0;
-    color: mat.get-theme-color($theme, surface);
+    color: mat.get-theme-color($theme, surface-variant);
     z-index: 10;
     align-items: center;
     justify-content: center;

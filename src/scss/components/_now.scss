@@ -41,5 +41,12 @@
       position: fixed;
       height: 20vh;
     }
+    [history] {
+      position: fixed;
+      right: 1em;
+      bottom: 1em;
+      display: flex;
+      column-gap: 0.5rem;
+    }
   }
 }

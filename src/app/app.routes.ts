@@ -5,6 +5,8 @@ import {
     redirectLoggedInTo,
 } from '@angular/fire/auth-guard';
 import { NowComponent } from './component/now/now.component';
+import { DayComponent } from './component/day/day.component';
+import { WeekComponent } from './component/week/week.component';
 
 
 /** add redirect URL to login */
@@ -30,6 +32,20 @@ export const routes: Routes = [
     {
         path: '',
         component: NowComponent,
+        pathMatch: 'full',
+        canActivate: [AuthGuard],
+        data: { authGuardPipe: redirectUnauthorizedToLogin },
+    },
+    {
+        path: 'day',
+        component: DayComponent,
+        pathMatch: 'full',
+        canActivate: [AuthGuard],
+        data: { authGuardPipe: redirectUnauthorizedToLogin },
+    },
+    {
+        path: 'week',
+        component: WeekComponent,
         pathMatch: 'full',
         canActivate: [AuthGuard],
         data: { authGuardPipe: redirectUnauthorizedToLogin },

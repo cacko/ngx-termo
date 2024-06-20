@@ -14,6 +14,7 @@ import { Context } from 'chartjs-plugin-datalabels';
 
 import 'chartjs-adapter-moment';
 import { SensorLocation } from '../../entity/location.emtity';
+import { PERIOD } from '../../entity/api.entity';
 
 const CHART_COLORS = {
   red: '#E6836B',
@@ -142,7 +143,7 @@ export class LivetempComponent implements OnInit, OnChanges {
         label: sensor,
         fill: true
       };
-      this.api.getHistory(sensor).subscribe((models: NowDataModel[]) => {
+      this.api.getHistory(sensor, PERIOD.HOUR).subscribe((models: NowDataModel[]) => {
         const data = models.map((m) => ({ y: m.temp, x: m.timestampDate }));
         this.currentData[this.dataSets[sensor]] = last(models) as NowDataModel;
         this.chartData.datasets[this.dataSets[sensor]].data = data;

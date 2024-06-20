@@ -1,48 +1,33 @@
 @use "@angular/material" as mat;
 @use "sass:map";
-@use "./scss/components/temp" as my-temp;
-@use "./scss/components/termometer" as my-termometer;
-@use "./scss/components/secondary" as my-secondary;
-@use "./scss/components/now" as my-now;
-@use "./scss/components/clock" as my-clock;
+@use "./scss/components/temp" as Temp;
+@use "./scss/components/termometer" as Termometer;
+@use "./scss/components/secondary" as Secondary;
+@use "./scss/components/now" as Now;
+@use "./scss/components/clock" as Clock;
+@use "./scss/components/background" as Background;
+@use "./scss/components/day" as Day;
+@use "./scss/components/livetemp" as Livetemp;
+@use "./scss/components/loader" as Loader;
+@use "./scss/components/week" as Week;
+@use "./scss/theme" as Theme;
 @include mat.core();
 
-$my-theme: mat.define-theme(
-  (
-    color: (
-      theme-type: dark,
-      primary: mat.$cyan-palette,
-    ),
-    typography: (
-      plain-family: "Lacquer",
-      brand-family: "Lacquer",
-    ),
-    density: (
-      scale: -3,
-    ),
-  )
-);
-$my-typography: mat.define-typography(
-  (
-    plain-family: "Lacquer",
-  )
-);
-
 html {
-  @include mat.core-theme($my-theme);
-  @include mat.all-component-themes($my-theme);
-  @include mat.typography-hierarchy($my-typography);
-  @include my-now.apply-theme($my-theme);
-  @include my-clock.apply-theme($my-theme);
-
-  @import "./scss/components/temp";
+  @include mat.core-theme(Theme.$theme);
+  @include mat.all-component-themes(Theme.$theme);
+  @include mat.typography-hierarchy(Theme.$typography);
   @import "./scss/components/spacer";
-  @import "./scss/components/background";
-  @import "./scss/components/livetemp";
-  @import "./scss/components/loader";
-  @include my-temp.apply-theme($my-theme);
-  @include my-termometer.apply-theme($my-theme);
-  @include my-secondary.apply-theme($my-theme);
+  @include Background.apply-theme(Theme.$theme);
+  @include Livetemp.apply-theme(Theme.$theme);
+  @include Loader.apply-theme(Theme.$theme);
+  @include Day.apply-theme(Theme.$theme);
+  @include Week.apply-theme(Theme.$theme);
+  @include Temp.apply-theme(Theme.$theme);
+  @include Termometer.apply-theme(Theme.$theme);
+  @include Secondary.apply-theme(Theme.$theme);
+  @include Now.apply-theme(Theme.$theme);
+  @include Clock.apply-theme(Theme.$theme);
   box-sizing: border-box;
   padding: 0;
   margin: 0;

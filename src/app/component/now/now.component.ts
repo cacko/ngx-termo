@@ -9,6 +9,10 @@ import { MomentModule } from 'ngx-moment';
 import { TimeService } from '../../service/time.service';
 import { LayoutModule } from '@angular/cdk/layout';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatRippleModule } from '@angular/material/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-now',
@@ -20,7 +24,11 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
     BackgroundComponent,
     SecondaryComponent,
     MomentModule,
-    LayoutModule
+    LayoutModule,
+    MatButtonModule,
+    MatIconModule,
+    MatRippleModule,
+    RouterModule
   ],
   templateUrl: './now.component.html',
 })

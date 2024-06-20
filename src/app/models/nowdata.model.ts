@@ -10,6 +10,7 @@ export class NowDataModel implements NowDataEntity {
     model !: string;
     timestamp !: string;
     location !: SensorLocation;
+    temp_min ?: number;
 
     readonly MIN_TEMP = -10;
     readonly MAX_TEMP = 40;
@@ -55,6 +56,10 @@ export class NowDataModel implements NowDataEntity {
 
     get timestampDate() {
         return moment(this.timestamp).utc();
+    }
+
+    get timestampDay() {
+        return moment(this.timestamp).utc().toDate();
     }
 
     get humidLabel() {
