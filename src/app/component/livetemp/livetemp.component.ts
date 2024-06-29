@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { NowDataModel } from '../../models/nowdata.model';
 import { ApiService } from '../../service/api.service';
 import { BaseChartDirective } from 'ng2-charts';
@@ -6,8 +6,8 @@ import { CommonModule } from '@angular/common';
 import { ChartConfiguration, Chart, } from 'chart.js';
 import moment, { Moment } from 'moment';
 import { DatabaseService } from '../../service/db.service';
-import { forEach, last, takeRightWhile } from 'lodash-es';
-import { Subscription, interval } from 'rxjs';
+import { head, last } from 'lodash-es';
+import { Subscription, interval, merge } from 'rxjs';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Context } from 'chartjs-plugin-datalabels';
 
@@ -15,6 +15,7 @@ import { Context } from 'chartjs-plugin-datalabels';
 import 'chartjs-adapter-moment';
 import { SensorLocation } from '../../entity/location.emtity';
 import { PERIOD } from '../../entity/api.entity';
+import { LoaderService } from '../../service/loader.service';
 
 const CHART_COLORS = {
   red: '#E6836B',
@@ -30,6 +31,11 @@ interface CurrentData {
   [key: number]: NowDataModel;
 }
 
+interface ApiParams {
+  location: SensorLocation;
+  period: PERIOD;
+}
+
 @Component({
   selector: 'app-livetemp',
   standalone: true,
@@ -39,10 +45,10 @@ interface CurrentData {
   ],
   templateUrl: './livetemp.component.html',
 })
-export class LivetempComponent implements OnInit, OnChanges {
+export class LivetempComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() sensors: SensorLocation[] = [];
-  sub?: Subscription;
+  subs: Subscription[] = [];
   timer?: Subscription;
 
   public chartOptions: ChartConfiguration['options'] = {
@@ -123,36 +129,54 @@ export class LivetempComponent implements OnInit, OnChanges {
 
   constructor(
     private api: ApiService,
-    private db: DatabaseService
+    private db: DatabaseService,
+    private loader: LoaderService
   ) {
 
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.timer?.unsubscribe();
-    this.sub?.unsubscribe();
+    this.ngOnDestroy();
     this.ngOnInit();
   }
 
+  ngOnDestroy(): void {
+    this.timer?.unsubscribe();
+    while (this.subs.length) {
+      this.subs.pop()?.unsubscribe();
+    }
+  }
 
   ngOnInit(): void {
     this.chartData.datasets = [];
+    const api_calls: ApiParams[] = [];
     for (const sensor of this.sensors) {
       this.chartData.datasets[this.dataSets[sensor]] = {
         data: [],
         label: sensor,
         fill: true
       };
-      this.api.getHistory(sensor, PERIOD.HOUR).subscribe((models: NowDataModel[]) => {
-        const data = models.map((m) => ({ y: m.temp, x: m.timestampDate }));
-        this.currentData[this.dataSets[sensor]] = last(models) as NowDataModel;
-        this.chartData.datasets[this.dataSets[sensor]].data = data;
-        Object.keys(this.currentData).length == this.sensors.length && this.update();
-        this.sub = this.db.forSensor(sensor).subscribe((data: any) => {
-          this.currentData[this.dataSets[sensor]] = data as NowDataModel;
-        });
-      });
+      api_calls.push({ location: sensor, period: PERIOD.HOUR })
     }
+    this.loader.show();
+    merge(
+      ...api_calls.map(params => this.api.getHistory(params.location, params.period))
+    ).subscribe((models: NowDataModel[]) => {
+      const sensor = (head(models) as NowDataModel).location;
+      const data = models.map((m) => ({ y: m.temp, x: m.timestampDate }));
+      this.currentData[this.dataSets[sensor]] = last(models) as NowDataModel;
+      this.chartData.datasets[this.dataSets[sensor]].data = data;
+      this.subs.push(this.db.forSensor(sensor).subscribe({
+        next: (sData: any) => {
+          if (sData) {
+            this.currentData[this.dataSets[sensor]] = sData as NowDataModel;
+            this.update();
+            this.loader.hide();
+          }
+        },
+        error: (err) => (console.debug(err)),
+      }));
+    });
 
     this.timer = interval(15000).subscribe(() => {
       this.update();

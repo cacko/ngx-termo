@@ -1,29 +1,30 @@
-import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, Renderer2, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, Renderer2, SimpleChanges, inject } from '@angular/core';
 import { DatabaseService } from '../../service/db.service';
 import { NowDataModel } from '../../models/nowdata.model';
 import { SensorLocation } from '../../entity/location.emtity';
 import { Subscription } from 'rxjs';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-background',
   standalone: true,
   imports: [
-    CommonModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    CommonModule
   ],
   templateUrl: './background.component.html',
 })
 export class BackgroundComponent implements AfterViewInit, OnChanges {
 
   @Input() sensor !: SensorLocation;
-  imgSrc ?: string;
+  imgSrc?: string;
   dbSub?: Subscription;
 
+
   constructor(
-    private element: ElementRef,
-    private renderer: Renderer2,
-    private db: DatabaseService
+    private db: DatabaseService,
+    private element: ElementRef = inject(ElementRef),
+    private renderer: Renderer2 = inject(Renderer2)
   ) {
 
   }
@@ -41,4 +42,4 @@ export class BackgroundComponent implements AfterViewInit, OnChanges {
     });
   }
 
-}``
+} ``

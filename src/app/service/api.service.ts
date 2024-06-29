@@ -1,19 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, Subject, tap, delay, EMPTY, expand, reduce } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { API, NowDataEntity, PERIOD } from '../entity/api.entity';
-import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
 import { inject } from '@angular/core';
-import { concat, findIndex, findLastIndex } from 'lodash-es';
 import { LocalStorageService } from 'ngx-localstorage';
-import moment, { Moment } from 'moment';
+import { Moment } from 'moment';
 import { LoaderService } from './loader.service';
 import { NowDataModel } from '../models/nowdata.model';
 import { SensorLocation } from '../entity/location.emtity';
 
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiService {
   private uid: string = "dev"
@@ -21,11 +19,11 @@ export class ApiService {
   private readySubject = new Subject<boolean>();
   ready = this.readySubject.asObservable();
   protected readonly storage = inject(LocalStorageService);
+  protected readonly http = inject(HttpClient);
 
   userToken = '';
 
   constructor(
-    private http: HttpClient,
     private loader: LoaderService
   ) {
     this.storage.remove("last_modified");

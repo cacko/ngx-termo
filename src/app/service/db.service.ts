@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Database, ref, stateChanges, DataSnapshot, } from '@angular/fire/database';
-import { BehaviorSubject, Observable, of, } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, of, throwError, } from 'rxjs';
 import { NowDataEntity,  } from '../entity/api.entity';
 import { NowDataModel } from '../models/nowdata.model';
 import { SensorLocation } from '../entity/location.emtity';
+import { toPairs } from 'lodash-es';
 
 
 
@@ -19,7 +20,7 @@ export class DatabaseService {
   $outdoor = this.outdoorSubject.asObservable();
 
   constructor(
-    private db: Database
+    private db: Database = inject(Database)
   ) { }
 
   init() {
@@ -47,7 +48,7 @@ export class DatabaseService {
       case SensorLocation.OUTDOOR:
         return this.$outdoor;
       default:
-        return of(null);
+        throw new TypeError('no such location');
     }
   }
 

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, HostListener, Renderer2 } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, Renderer2, inject } from '@angular/core';
 import { TempComponent } from '../temp/temp.component';
 import { LivetempComponent } from '../livetemp/livetemp.component';
 import { SensorLocation } from '../../entity/location.emtity';
@@ -13,6 +13,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
 import { RouterModule } from '@angular/router';
+import { LoaderService } from '../../service/loader.service';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-now',
@@ -32,39 +34,47 @@ import { RouterModule } from '@angular/router';
   ],
   templateUrl: './now.component.html',
 })
-export class NowComponent implements AfterViewInit {
+export class NowComponent implements AfterViewInit, OnInit {
 
   primary: SensorLocation = SensorLocation.INDOOR;
   secondary: SensorLocation = SensorLocation.OUTDOOR;
   livesensors = [this.primary, this.secondary];
+
+  
   $isLarge = this.breakpointObserver.observe([
     Breakpoints.Large
-  ]);
+  ]).pipe((
+    tap(e => {
+      console.debug(e);
+    }
+  )));
 
   constructor(
-    private element: ElementRef,
-    private renderer: Renderer2,
+    private element: ElementRef = inject(ElementRef),
+    private renderer: Renderer2 = inject(Renderer2),
     private timeService: TimeService,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver = inject(BreakpointObserver),
+    private loader: LoaderService
   ) {
 
   }
 
-  onSecondary(event: UIEvent) {
-    event.stopPropagation();
+  onSecondary(event?: UIEvent) {
+    // event?.stopPropagation();
     this.primary = this.primary == SensorLocation.INDOOR ? SensorLocation.OUTDOOR : SensorLocation.INDOOR;
     this.secondary = this.secondary == SensorLocation.INDOOR ? SensorLocation.OUTDOOR : SensorLocation.INDOOR;
-
   }
 
+  ngOnInit(): void {
+    this.loader.show();
+  }
+
+
   ngAfterViewInit(): void {
+    this.loader.hide();
     this.timeService.$hour.subscribe((hour: number) => {
       this.renderer.setAttribute(this.element.nativeElement, "hour", `${hour}`);
     });
-  }
-
-  @HostListener('dblclick') onDoubleClick(event: UIEvent) {
-    this.onSecondary(event);
   }
 
 }

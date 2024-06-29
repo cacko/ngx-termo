@@ -7,6 +7,7 @@ import {
 import { NowComponent } from './component/now/now.component';
 import { DayComponent } from './component/day/day.component';
 import { WeekComponent } from './component/week/week.component';
+import { LoginComponent } from './component/login/login.component';
 
 
 /** add redirect URL to login */
@@ -50,4 +51,12 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: { authGuardPipe: redirectUnauthorizedToLogin },
     },
+    {
+        path: 'login',
+        component: LoginComponent,
+        pathMatch: 'full',
+        canActivate: [AuthGuard],
+        data: { authGuardPipe: redirectLoggedInToPreviousPage },
+
+    }
 ];

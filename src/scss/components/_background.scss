@@ -12,6 +12,8 @@
     background-position: bottom;
     background-blend-mode: screen;
     background-size: cover;
+    pointer-events: none;
+    user-select:none;
     img {
       mix-blend-mode: lighten;
       opacity: 0.6;

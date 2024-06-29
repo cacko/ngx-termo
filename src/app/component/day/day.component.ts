@@ -4,18 +4,17 @@ import { SensorLocation } from '../../entity/location.emtity';
 import { PERIOD } from '../../entity/api.entity';
 import { BehaviorSubject, merge } from 'rxjs';
 import { NowDataModel } from '../../models/nowdata.model';
-import { CommonModule } from '@angular/common';
-import { BaseChartDirective, } from 'ng2-charts';
 import { ChartConfiguration } from 'chart.js';
 import { Context } from 'chartjs-plugin-datalabels';
 import { head } from 'lodash-es';
 import { CHART_COLORS, transparentize } from '../../utils.chartjs';
-import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
 import { RouterModule } from '@angular/router';
 import { DragScrollDirective } from '../../drag-scroll.directive';
 import moment from 'moment-timezone';
+import { BaseChartDirective } from 'ng2-charts';
+import { MatIconModule } from '@angular/material/icon';
 
 
 interface CurrentData {
@@ -27,13 +26,12 @@ interface CurrentData {
   selector: 'app-day',
   standalone: true,
   imports: [
-    CommonModule,
     BaseChartDirective,
-    MatIconModule,
     MatButtonModule,
     MatRippleModule,
     RouterModule,
-    DragScrollDirective
+    DragScrollDirective,
+    MatIconModule,
   ],
   templateUrl: './day.component.html',
 })
@@ -47,7 +45,9 @@ export class DayComponent implements OnInit {
     responsive: true,
     plugins: {
       legend: {
-        display: false
+        display: true,
+        position: 'top',
+        align: 'start'
       },
       tooltip: {
         enabled: false
@@ -80,7 +80,7 @@ export class DayComponent implements OnInit {
           displayFormats: {
             hour: "HH:mm"
           },
-          
+
         },
         reverse: true,
         title: {

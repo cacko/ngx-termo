@@ -14,7 +14,7 @@ import { takeUntil } from "rxjs/operators";
 
 @Directive({
   selector: '[appDragScroll]',
-  standalone: true
+  standalone: true,
 })
 export class DragScrollDirective implements AfterViewInit, OnDestroy {
 
@@ -71,7 +71,7 @@ export class DragScrollDirective implements AfterViewInit, OnDestroy {
 
 
     const parent = this.element.parentElement,
-      maxX = -(this.element.clientWidth - (window.document.body.clientWidth || 0));
+      maxX = -(this.element.clientWidth - (parent?.parentElement?.clientWidth || 0));
 
     let dragSub !: Subscription;
 

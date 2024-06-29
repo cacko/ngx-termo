@@ -43,8 +43,8 @@
     }
     [history] {
       position: fixed;
-      right: 1em;
-      bottom: 1em;
+      right: 0;
+      bottom: 0.5rem;
       display: flex;
       column-gap: 0.5rem;
     }

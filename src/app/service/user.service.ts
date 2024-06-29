@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   Auth,
   authState,
@@ -18,8 +18,9 @@ import moment from 'moment';
 export class UserService {
   public readonly user: Observable<User | null> = EMPTY;
   private refreshSub ?: Subscription;
+  private auth = inject(Auth);
 
-  constructor(private auth: Auth, private api: ApiService) {
+  constructor(private api: ApiService) {
     this.user = authState(this.auth);
   }
 
@@ -37,12 +38,12 @@ export class UserService {
     })
   }
 
-  async login() {
-    return await signInAnonymously(this.auth);
+  login() {
+    return signInAnonymously(this.auth);
   }
 
-  async logout() {
-    return await signOut(this.auth);
+  logout() {
+    return signOut(this.auth);
   }
 
 }

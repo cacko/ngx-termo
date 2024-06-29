@@ -1,20 +1,20 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '../../service/api.service';
 import { SensorLocation } from '../../entity/location.emtity';
 import { PERIOD } from '../../entity/api.entity';
 import { BehaviorSubject, merge } from 'rxjs';
 import { NowDataModel } from '../../models/nowdata.model';
 import { CommonModule } from '@angular/common';
-import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration } from 'chart.js';
 import { Context } from 'chartjs-plugin-datalabels';
 import { head } from 'lodash-es';
 import { CHART_COLORS, transparentize } from '../../utils.chartjs';
-import { MatButtonModule } from '@angular/material/button';
-import { RouterModule } from '@angular/router';
-import { MatRipple } from '@angular/material/core';
-import { MatIconModule } from '@angular/material/icon';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DragScrollDirective } from '../../drag-scroll.directive';
+import { BaseChartDirective } from 'ng2-charts';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
+import { MatRippleModule } from '@angular/material/core';
 
 interface CurrentData {
   [key: number]: NowDataModel;
@@ -23,14 +23,12 @@ interface CurrentData {
 @Component({
   selector: 'app-week',
   standalone: true,
-  imports: [
-    CommonModule,
-    BaseChartDirective,
+  imports: [BaseChartDirective,
     MatButtonModule,
     MatIconModule,
     RouterModule,
-    MatRipple,
-    DragScrollDirective
+    MatRippleModule,
+    DragScrollDirective,
   ],
   templateUrl: './week.component.html',
 })
@@ -43,7 +41,9 @@ export class WeekComponent implements OnInit {
     responsive: true,
     plugins: {
       legend: {
-        display: false,
+        display: true,
+        position: 'top',
+        align: 'start'
       },
       tooltip: {
         enabled: false,

@@ -40,19 +40,18 @@ export class AppComponent implements OnInit {
   $loader = this.loader.$visible;
 
   constructor(
-    private router: Router,
-    private iconRegister: MatIconRegistry,
+    private iconRegister: MatIconRegistry = inject(MatIconRegistry),
     private userService: UserService,
     private db: DatabaseService,
     private loader: LoaderService,
-    private swUpdate: SwUpdate,
+    private swUpdate: SwUpdate = inject(SwUpdate),
     private timeService: TimeService,
-    private analytics: Analytics = inject(Analytics)
+    // private analytics: Analytics = inject(Analytics)
   ) {
     this.timeService.start();
     this.loader.show();
     this.iconRegister.setDefaultFontSetClass('material-symbols-sharp');
-    setAnalyticsCollectionEnabled(this.analytics, true);
+
 
     this.userService.user.subscribe((res) => {
       if (res?.uid) {
@@ -63,7 +62,6 @@ export class AppComponent implements OnInit {
       this.loader.hide();
     });
     this.userService.init();
-    this.userService.login();
     if (isDevMode() === false) {
       this.swUpdate.versionUpdates.subscribe((evt: VersionEvent) => {
         if (evt.type == 'VERSION_READY') {

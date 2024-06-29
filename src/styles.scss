@@ -36,7 +36,8 @@ html {
 
 *,
 *:before,
-*:after {
+*:after,
+img {
   box-sizing: inherit;
   user-select: none;
   -ms-user-select: none;

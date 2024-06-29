@@ -5,7 +5,7 @@ import { Observable, interval, startWith, map } from 'rxjs';
 
 
 
-interface Time {
+export interface Time {
   minutes: string;
   hour: string;
 }
@@ -14,23 +14,21 @@ interface Time {
 @Component({
   selector: 'app-clock',
   standalone: true,
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   templateUrl: './clock.component.html',
 })
 export class ClockComponent implements OnInit {
-  $time?: Observable<Time | null>;
+  $time !: Observable<Time>;
 
 
   ngOnInit(): void {
-    const time_obj = () => {
+    const time_obj = (): Time => {
       const now = moment().utc();
       const bst = now.tz('Europe/London');
       return {
         hour: now.format('HH'),
         minutes: now.format('mm')
-      };
+      } as Time;
     };
     this.$time = interval(60000)
       .pipe(
