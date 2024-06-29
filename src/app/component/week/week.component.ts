@@ -6,14 +6,15 @@ import { BehaviorSubject, mapTo, merge } from 'rxjs';
 import { NowDataModel } from '../../models/nowdata.model';
 import { CommonModule } from '@angular/common';
 import { BaseChartDirective } from 'ng2-charts';
-import { ChartConfiguration } from 'chart.js';
+import { ChartConfiguration, Chart } from 'chart.js';
 import { Context } from 'chartjs-plugin-datalabels';
 import { head } from 'lodash-es';
 import { CHART_COLORS, transparentize } from '../../utils.chartjs';
-import { MatButtonModule, MatIconButton } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { MatRipple } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
+import { DragScrollDirective } from '../../drag-scroll.directive';
 
 interface CurrentData {
   [key: number]: NowDataModel;
@@ -29,6 +30,7 @@ interface CurrentData {
     MatIconModule,
     RouterModule,
     MatRipple,
+    DragScrollDirective
   ],
   templateUrl: './week.component.html',
 })
@@ -38,10 +40,10 @@ export class WeekComponent implements OnInit {
 
   public chartOptions: ChartConfiguration['options'] = {
     maintainAspectRatio: false,
-
+    responsive: true,
     plugins: {
       legend: {
-        display: true,
+        display: false,
       },
       tooltip: {
         enabled: false,
@@ -67,13 +69,13 @@ export class WeekComponent implements OnInit {
         type: 'timeseries',
         time: {
           unit: 'day',
+          round: 'day'
         },
         stacked: true,
       },
       y: {
-        offset: true,
-        min: 0,
-        max: 40,
+        offset: false,
+        display: false,
         ticks: {
           callback: function (value, index, ticks) {
             return Number(value).toFixed(1) + '°C';
@@ -93,6 +95,7 @@ export class WeekComponent implements OnInit {
         backgroundColor: transparentize(CHART_COLORS.blue, 0.5),
         borderWidth: 1,
         borderRadius: 5,
+        barPercentage: 1,
         borderSkipped: false,
         stack: 'Stack 0',
       },
@@ -102,6 +105,7 @@ export class WeekComponent implements OnInit {
         borderColor: CHART_COLORS.blue,
         backgroundColor: transparentize(CHART_COLORS.blue, 0.1),
         borderWidth: 2,
+        barPercentage: 1,
         borderRadius: 5,
         borderSkipped: false,
         stack: 'Start 1',
@@ -112,6 +116,7 @@ export class WeekComponent implements OnInit {
         borderColor: CHART_COLORS.red,
         backgroundColor: CHART_COLORS.red,
         borderWidth: 2,
+        barPercentage: 1,
         borderRadius: 5,
         borderSkipped: false,
         stack: 'Stack 0',
@@ -123,7 +128,7 @@ export class WeekComponent implements OnInit {
         backgroundColor: CHART_COLORS.purple,
         borderWidth: 2,
         borderRadius: 5,
-        width: 20,
+        barPercentage: 1,
         borderSkipped: false,
         stack: 'Start 1',
       },
@@ -141,7 +146,7 @@ export class WeekComponent implements OnInit {
     [SensorLocation.INDOOR]: 0,
     [SensorLocation.OUTDOOR]: 1,
   };
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService) { }
 
   ngOnInit(): void {
     merge(

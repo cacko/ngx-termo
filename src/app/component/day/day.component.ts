@@ -6,7 +6,7 @@ import { BehaviorSubject, mapTo, merge } from 'rxjs';
 import { NowDataModel } from '../../models/nowdata.model';
 import { CommonModule } from '@angular/common';
 import { BaseChartDirective, } from 'ng2-charts';
-import { ChartConfiguration } from 'chart.js';
+import { ChartConfiguration, Chart } from 'chart.js';
 import { Context } from 'chartjs-plugin-datalabels';
 import { head } from 'lodash-es';
 import { CHART_COLORS, transparentize } from '../../utils.chartjs';
@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
 import { RouterModule } from '@angular/router';
+
 
 interface CurrentData {
   [key: number]: NowDataModel;
@@ -43,10 +44,10 @@ export class DayComponent implements OnInit {
 
   public chartOptions: ChartConfiguration['options'] = {
     maintainAspectRatio: false,
-
+    responsive: true,
     plugins: {
       legend: {
-        display: true
+        display: false
       },
       tooltip: {
         enabled: false
@@ -63,6 +64,7 @@ export class DayComponent implements OnInit {
           size: 15
         },
         formatter: function (value, context: Context) {
+          console.log(value);
           const dIdx = context.dataIndex;
           const data = context.dataset.data as Array<any>;
           const previous = data[dIdx - 1] || null;
@@ -74,13 +76,13 @@ export class DayComponent implements OnInit {
       x: {
         type: "timeseries",
         time: {
-          unit: 'hour'
+          unit: 'hour',
+          round: 'hour'
         },
       },
       y: {
-        offset: true,
-        min: 0,
-        max: 40,
+        offset: false,
+        display: false,
         ticks: {
           callback: function (value, index, ticks) {
             return Number(value).toFixed(1) + "°C";
@@ -99,7 +101,7 @@ export class DayComponent implements OnInit {
         backgroundColor: transparentize(CHART_COLORS.red, 0.5),
         borderWidth: 2,
         borderRadius: 5,
-        width: 300,
+        // barPercentage: 1,
         borderSkipped: false,
       },
       {
@@ -109,9 +111,8 @@ export class DayComponent implements OnInit {
         backgroundColor: transparentize(CHART_COLORS.blue, 0.5),
         borderWidth: 2,
         borderRadius: 5,
-        width: 20,
+        // barPercentage: 1,
         borderSkipped: false,
-
       }
     ],
     labels: []

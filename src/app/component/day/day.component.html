@@ -1,6 +1,15 @@
-<div class="spacer"></div>
-<canvas baseChart [data]="chartData" [options]="chartOptions" [type]="'bar'"> </canvas>
-<div class="spacer"></div>
+<div chart>
+    <div chart-container>
+        <canvas
+            baseChart
+            [data]="chartData"
+            [options]="chartOptions"
+            [type]="'bar'"
+        >
+        </canvas>
+    </div>
+</div>
+
 <div history>
     <button
         routerLink="/"
