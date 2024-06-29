@@ -15,9 +15,8 @@
       overflow-x: scroll;
       [chart-container] {
         canvas {
-          transition: object-position 100ms linear;
+          transition: object-position 250ms linear;
           object-position: 0px center;
-
           &.dragging {
             cursor: grabbing;
           }
