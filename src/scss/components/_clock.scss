@@ -4,15 +4,15 @@
   app-clock {
     display: flex;
     flex-direction: row;
-    padding: 0.5rem;
     position: fixed;
-    left: 0;
-    bottom: 0;
+    left: 1rem;
+    bottom: 1rem;
     color: mat.get-theme-color($theme, surface-variant);
     z-index: 10;
     align-items: center;
     justify-content: center;
     font-size: 2rem;
+    animation: pulse 5s infinite alternate-reverse linear;
     [separator] {
       animation: timer 1s infinite;
     }
@@ -23,6 +23,14 @@
 
       to {
         opacity: 0;
+      }
+    }
+    @keyframes pulse{
+      from {
+        color: mat.get-theme-color($theme, surface-variant);
+      }
+      to {
+        color: mat.get-theme-color($theme, on-surface);
       }
     }
   }

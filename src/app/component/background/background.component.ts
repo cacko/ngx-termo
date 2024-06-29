@@ -29,7 +29,6 @@ export class BackgroundComponent implements AfterViewInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
     this.dbSub?.unsubscribe();
     this.ngAfterViewInit();
   }

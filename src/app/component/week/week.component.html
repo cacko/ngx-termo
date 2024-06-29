@@ -1,10 +1,11 @@
-<div chart>
-    <div chart-container appDragScroll>
+<div chart >
+    <div chart-container >
         <canvas
             baseChart
             [data]="chartData"
             [options]="chartOptions"
             [type]="'bar'"
+            appDragScroll
         >
         </canvas>
     </div>

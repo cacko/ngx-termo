@@ -11,8 +11,16 @@
     position: relative;
     overflow: hidden;
     [chart] {
-      overflow-x: scroll;
       [chart-container] {
+        overflow-x: scroll;
+        canvas {
+          transition: object-position 100ms linear;
+          object-position: 0px center;
+
+          &.dragging {
+            cursor: grabbing;
+          }
+        }
         width: 3000px;
         height: 80vh;
       }

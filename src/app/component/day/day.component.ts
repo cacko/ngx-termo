@@ -2,11 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '../../service/api.service';
 import { SensorLocation } from '../../entity/location.emtity';
 import { PERIOD } from '../../entity/api.entity';
-import { BehaviorSubject, mapTo, merge } from 'rxjs';
+import { BehaviorSubject, merge } from 'rxjs';
 import { NowDataModel } from '../../models/nowdata.model';
 import { CommonModule } from '@angular/common';
 import { BaseChartDirective, } from 'ng2-charts';
-import { ChartConfiguration, Chart } from 'chart.js';
+import { ChartConfiguration } from 'chart.js';
 import { Context } from 'chartjs-plugin-datalabels';
 import { head } from 'lodash-es';
 import { CHART_COLORS, transparentize } from '../../utils.chartjs';
@@ -14,13 +14,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
 import { RouterModule } from '@angular/router';
+import { DragScrollDirective } from '../../drag-scroll.directive';
+import moment from 'moment-timezone';
 
 
 interface CurrentData {
   [key: number]: NowDataModel;
 }
-
-
 
 
 @Component({
@@ -32,7 +32,8 @@ interface CurrentData {
     MatIconModule,
     MatButtonModule,
     MatRippleModule,
-    RouterModule
+    RouterModule,
+    DragScrollDirective
   ],
   templateUrl: './day.component.html',
 })
@@ -40,7 +41,6 @@ export class DayComponent implements OnInit {
 
   private $dataSubject = new BehaviorSubject<NowDataModel[] | null>(null);
   $data = this.$dataSubject.asObservable();
-
 
   public chartOptions: ChartConfiguration['options'] = {
     maintainAspectRatio: false,
@@ -64,7 +64,6 @@ export class DayComponent implements OnInit {
           size: 15
         },
         formatter: function (value, context: Context) {
-          console.log(value);
           const dIdx = context.dataIndex;
           const data = context.dataset.data as Array<any>;
           const previous = data[dIdx - 1] || null;
@@ -77,8 +76,24 @@ export class DayComponent implements OnInit {
         type: "timeseries",
         time: {
           unit: 'hour',
-          round: 'hour'
+          round: 'hour',
+          displayFormats: {
+            hour: "HH:mm"
+          },
+          
         },
+        reverse: true,
+        title: {
+          font: {
+            family: "Ubuntu Condensed",
+            weight: 'bolder'
+          }
+        },
+        ticks: {
+          callback: function (value, index, ticks) {
+            return moment(value).fromNow();
+          },
+        }
       },
       y: {
         offset: false,
@@ -144,9 +159,7 @@ export class DayComponent implements OnInit {
     ).subscribe((data: NowDataModel[]) => {
       const sensor = (head(data) as NowDataModel).location
       const dataset = data.map((m: NowDataModel) => ({ y: m.temp, x: m.timestampDate }));
-      console.log(dataset);
       this.chartData.datasets[this.dataSets[sensor]].data = dataset;
-      console.log(this.chartData.datasets);
       this.chart?.update();
     });
 

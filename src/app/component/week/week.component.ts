@@ -2,11 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '../../service/api.service';
 import { SensorLocation } from '../../entity/location.emtity';
 import { PERIOD } from '../../entity/api.entity';
-import { BehaviorSubject, mapTo, merge } from 'rxjs';
+import { BehaviorSubject, merge } from 'rxjs';
 import { NowDataModel } from '../../models/nowdata.model';
 import { CommonModule } from '@angular/common';
 import { BaseChartDirective } from 'ng2-charts';
-import { ChartConfiguration, Chart } from 'chart.js';
+import { ChartConfiguration } from 'chart.js';
 import { Context } from 'chartjs-plugin-datalabels';
 import { head } from 'lodash-es';
 import { CHART_COLORS, transparentize } from '../../utils.chartjs';
@@ -72,6 +72,7 @@ export class WeekComponent implements OnInit {
           round: 'day'
         },
         stacked: true,
+        reverse: true,
       },
       y: {
         offset: false,
@@ -160,7 +161,6 @@ export class WeekComponent implements OnInit {
       this.chartData.datasets[this.dataSets[sensor]].data = data.map(
         (m: NowDataModel) => ({ y: m.temp_min, x: m.timestampDay })
       );
-      console.log(this.chartData.datasets);
       this.chart?.update();
     });
   }
